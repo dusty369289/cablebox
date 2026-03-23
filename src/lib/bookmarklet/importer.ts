@@ -1,8 +1,11 @@
 /**
  * Validates and imports channel JSON pasted from the bookmarklet.
+ * Sanitizes titles, caps video count, validates all fields.
  */
 
 import type { Channel, Video } from '$lib/scheduling/types.js';
+
+const MAX_VIDEOS_PER_CHANNEL = 500;
 
 type ImportedSource = {
 	type: 'imported';
@@ -25,6 +28,10 @@ type ImportedChannel = {
 export type ImportResult =
 	| { ok: true; channels: Channel[] }
 	| { ok: false; error: string };
+
+function sanitizeTitle(title: string): string {
+	return title.replace(/[<>"]/g, '').slice(0, 200);
+}
 
 export function validateAndParse(json: string): ImportResult {
 	let data: unknown;
@@ -63,18 +70,23 @@ export function validateAndParse(json: string): ImportResult {
 			return { ok: false, error: `${label}: invalid source format` };
 		}
 
+		const seen = new Set<string>();
 		const validVideos: Video[] = [];
 		for (const v of source.videos) {
 			if (!v.id || typeof v.id !== 'string') continue;
 			if (!v.title || typeof v.title !== 'string') continue;
 			if (typeof v.duration !== 'number' || v.duration <= 0) continue;
+			if (seen.has(v.id)) continue; // Deduplicate within channel
+			seen.add(v.id);
 
 			validVideos.push({
 				id: v.id,
-				title: v.title,
+				title: sanitizeTitle(v.title),
 				duration: v.duration,
 				thumbnail: v.thumbnail || `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`
 			});
+
+			if (validVideos.length >= MAX_VIDEOS_PER_CHANNEL) break;
 		}
 
 		if (validVideos.length === 0) {
@@ -82,7 +94,7 @@ export function validateAndParse(json: string): ImportResult {
 		}
 
 		channels.push({
-			name: ch.name,
+			name: sanitizeTitle(ch.name),
 			slug: ch.slug,
 			number: ch.number || 0,
 			category: ch.category || 'Imported',

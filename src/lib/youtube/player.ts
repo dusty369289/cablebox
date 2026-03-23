@@ -3,33 +3,33 @@ import { PlayerState } from './types.js';
 
 let apiLoaded = false;
 let apiLoading = false;
-let apiReadyResolve: (() => void) | null = null;
-const apiReadyPromise = new Promise<void>((resolve) => {
-	apiReadyResolve = resolve;
-});
+const apiReadyCallbacks: (() => void)[] = [];
 
 /**
  * Load the YouTube IFrame Player API script.
- * Safe to call multiple times — only loads once.
+ * Safe to call multiple times — only loads once. Uses a callback queue
+ * to avoid the race condition of overwriting onYouTubeIframeAPIReady.
  */
 export function loadYouTubeAPI(): Promise<void> {
 	if (apiLoaded) return Promise.resolve();
-	if (apiLoading) return apiReadyPromise;
 
-	apiLoading = true;
+	return new Promise<void>((resolve) => {
+		apiReadyCallbacks.push(resolve);
 
-	// YouTube calls this global when the API is ready
-	window.onYouTubeIframeAPIReady = () => {
-		apiLoaded = true;
-		apiReadyResolve?.();
-	};
+		if (apiLoading) return; // Script already loading, just queued our callback
+		apiLoading = true;
 
-	const script = document.createElement('script');
-	script.src = 'https://www.youtube.com/iframe_api';
-	script.async = true;
-	document.head.appendChild(script);
+		window.onYouTubeIframeAPIReady = () => {
+			apiLoaded = true;
+			for (const cb of apiReadyCallbacks) cb();
+			apiReadyCallbacks.length = 0;
+		};
 
-	return apiReadyPromise;
+		const script = document.createElement('script');
+		script.src = 'https://www.youtube.com/iframe_api';
+		script.async = true;
+		document.head.appendChild(script);
+	});
 }
 
 export type PlayerCallbacks = {

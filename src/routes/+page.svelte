@@ -30,7 +30,8 @@
 	import type { Channel, ScheduleResult } from '$lib/scheduling/types.js';
 
 	let loaded = $state(false);
-	let started = $state(false); // User must interact before autoplay works
+	let loadError = $state('');
+	let started = $state(false);
 	let schedule = $state<ScheduleResult | null>(null);
 	let showGuide = $state(false);
 	let showImport = $state(false);
@@ -53,6 +54,7 @@
 	function handleTouchEnd(e: TouchEvent) {
 		const deltaY = e.changedTouches[0].clientY - touchStartY;
 		if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
+		e.preventDefault();
 
 		if (deltaY < 0) {
 			triggerStatic();
@@ -70,9 +72,10 @@
 		let userChannels: Channel[] = [];
 		try {
 			userChannels = await getUserChannels();
-		} catch { /* IndexedDB unavailable */ }
+		} catch (err) {
+			console.warn('Failed to load user channels:', err);
+		}
 
-		// Assign channel numbers to user channels starting after defaults
 		const maxDefault = Math.max(0, ...defaults.map((c) => c.number));
 		userChannels.forEach((ch, i) => {
 			if (ch.number === 0) ch.number = maxDefault + 1 + i;
@@ -82,7 +85,15 @@
 	}
 
 	onMount(async () => {
-		await loadAllChannels();
+		try {
+			const timeout = new Promise<never>((_, reject) =>
+				setTimeout(() => reject(new Error('Channel load timed out')), 10000)
+			);
+			await Promise.race([loadAllChannels(), timeout]);
+		} catch (err) {
+			loadError = err instanceof Error ? err.message : 'Failed to load channels';
+			console.error('Channel load failed:', err);
+		}
 		startClock();
 		loaded = true;
 		updateSchedule();
@@ -244,6 +255,11 @@
 	<div class="loading">
 		<p>Loading channels...</p>
 	</div>
+{:else if loadError}
+	<div class="loading">
+		<p style="color: #f66;">{loadError}</p>
+		<button class="retry-btn" onclick={() => location.reload()}>Retry</button>
+	</div>
 {:else if !started}
 	<button class="splash" onclick={start}>
 		<div class="splash-content">
@@ -326,6 +342,7 @@
 
 	.loading {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		height: 100vh;
@@ -333,7 +350,15 @@
 		font-family: monospace;
 		font-size: 1.5rem;
 		background: #000;
+		gap: 16px;
 	}
+
+	.retry-btn {
+		background: #1a3a1a; border: 1px solid #3a3; color: #3a3;
+		padding: 8px 20px; border-radius: 4px; font-family: monospace;
+		font-size: 1rem; cursor: pointer;
+	}
+	.retry-btn:hover { background: #2a4a2a; color: #5c5; }
 
 	.splash {
 		display: flex;

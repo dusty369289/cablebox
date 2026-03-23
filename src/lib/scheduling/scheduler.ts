@@ -38,7 +38,7 @@ export function getScheduleAt(channel: Channel, timestamp: number): ScheduleResu
 
 	const elapsed = timestamp - EPOCH;
 	// Handle timestamps before epoch by wrapping correctly
-	const position = ((elapsed % totalCycle) + totalCycle) % totalCycle;
+	const position = Math.floor(((elapsed % totalCycle) + totalCycle) % totalCycle);
 
 	let accumulated = 0;
 	for (let i = 0; i < videos.length; i++) {
@@ -91,7 +91,7 @@ export function getScheduleRange(
 
 	while (currentTime < endTime) {
 		const elapsed = currentTime - EPOCH;
-		const position = ((elapsed % totalCycle) + totalCycle) % totalCycle;
+		const position = Math.floor(((elapsed % totalCycle) + totalCycle) % totalCycle);
 
 		// Find which video is playing at currentTime
 		let accumulated = 0;

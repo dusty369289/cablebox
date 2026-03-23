@@ -40,7 +40,7 @@
 		value={volume}
 		oninput={handleInput}
 		class="volume-slider"
-		disabled={muted}
+		class:dimmed={muted}
 	/>
 </div>
 
@@ -90,8 +90,7 @@
 		cursor: pointer;
 	}
 
-	.volume-slider:disabled {
+	.volume-slider.dimmed {
 		opacity: 0.4;
-		cursor: not-allowed;
 	}
 </style>

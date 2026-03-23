@@ -3,6 +3,17 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="CableBox — retro 90s cable TV experience for YouTube" />
+		<meta name="theme-color" content="#000000" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta http-equiv="Content-Security-Policy"
+			content="default-src 'self';
+				script-src 'self' https://www.youtube.com https://s.ytimg.com 'unsafe-inline';
+				frame-src https://www.youtube.com https://www.youtube-nocookie.com;
+				img-src 'self' https://img.youtube.com https://i.ytimg.com data:;
+				style-src 'self' 'unsafe-inline';
+				connect-src 'self';" />
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
