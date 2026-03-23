@@ -9,30 +9,200 @@
 				"type": "default",
 				"youtubeChannelId": "UCsXVk37bltHxD1rDPwtNM8Q",
 				"videos": [
-					{ "id": "JtUAAXe_0VI", "title": "The Solar System Is Not Like You Think", "duration": 751, "thumbnail": "https://img.youtube.com/vi/JtUAAXe_0VI/mqdefault.jpg" },
-					{ "id": "p_8yK2kmxoo", "title": "What If Earth Got Hit by a Giant Solar Flare?", "duration": 646, "thumbnail": "https://img.youtube.com/vi/p_8yK2kmxoo/mqdefault.jpg" },
-					{ "id": "DEfrocLgnHk", "title": "Black Holes from the Dawn of the Universe", "duration": 680, "thumbnail": "https://img.youtube.com/vi/DEfrocLgnHk/mqdefault.jpg" },
-					{ "id": "uD4izuDMUQA", "title": "Overpopulation & Africa", "duration": 735, "thumbnail": "https://img.youtube.com/vi/uD4izuDMUQA/mqdefault.jpg" },
-					{ "id": "LEENEFaVUzU", "title": "The Most Complex Language in the World", "duration": 711, "thumbnail": "https://img.youtube.com/vi/LEENEFaVUzU/mqdefault.jpg" }
+					{
+						"id": "NXhKuMQRAZ4",
+						"title": "Queen Ant Clones Another Species",
+						"duration": 70,
+						"thumbnail": "https://img.youtube.com/vi/NXhKuMQRAZ4/mqdefault.jpg"
+					},
+					{
+						"id": "yDAAlojz8NU",
+						"title": "This Is the Scariest Place in The Universe",
+						"duration": 554,
+						"thumbnail": "https://img.youtube.com/vi/yDAAlojz8NU/mqdefault.jpg"
+					},
+					{
+						"id": "iZ9ImJQy9V4",
+						"title": "The Injection That Stops HIV",
+						"duration": 66,
+						"thumbnail": "https://img.youtube.com/vi/iZ9ImJQy9V4/mqdefault.jpg"
+					},
+					{
+						"id": "5Xd38M9zTjM",
+						"title": "Let’s Tie All Planets Together",
+						"duration": 59,
+						"thumbnail": "https://img.youtube.com/vi/5Xd38M9zTjM/mqdefault.jpg"
+					},
+					{
+						"id": "YHlqwkdVda8",
+						"title": "Who Owns Your Drinking Water?",
+						"duration": 74,
+						"thumbnail": "https://img.youtube.com/vi/YHlqwkdVda8/mqdefault.jpg"
+					},
+					{
+						"id": "MP4RUzRnobg",
+						"title": "This Parasite Won’t Die",
+						"duration": 69,
+						"thumbnail": "https://img.youtube.com/vi/MP4RUzRnobg/mqdefault.jpg"
+					},
+					{
+						"id": "KTu2V65Iiho",
+						"title": "Why Does Cocaine Feel So Good?",
+						"duration": 72,
+						"thumbnail": "https://img.youtube.com/vi/KTu2V65Iiho/mqdefault.jpg"
+					},
+					{
+						"id": "qPSxUkssPmc",
+						"title": "Why Is Polio Back?",
+						"duration": 76,
+						"thumbnail": "https://img.youtube.com/vi/qPSxUkssPmc/mqdefault.jpg"
+					},
+					{
+						"id": "5EPPBDdhe6o",
+						"title": "The Worm with 4 Nobel Prizes",
+						"duration": 66,
+						"thumbnail": "https://img.youtube.com/vi/5EPPBDdhe6o/mqdefault.jpg"
+					},
+					{
+						"id": "dwZgy7SNMRc",
+						"title": "The Virus We Almost Beat",
+						"duration": 79,
+						"thumbnail": "https://img.youtube.com/vi/dwZgy7SNMRc/mqdefault.jpg"
+					},
+					{
+						"id": "mWN2IefeJow",
+						"title": "The Lake That Killed a Village",
+						"duration": 75,
+						"thumbnail": "https://img.youtube.com/vi/mWN2IefeJow/mqdefault.jpg"
+					},
+					{
+						"id": "bRkxPsuVEeU",
+						"title": "Zombie Proteins in Your Brain!",
+						"duration": 72,
+						"thumbnail": "https://img.youtube.com/vi/bRkxPsuVEeU/mqdefault.jpg"
+					},
+					{
+						"id": "zg40FHOAqC0",
+						"title": "Jupiter Made Earth Possible",
+						"duration": 72,
+						"thumbnail": "https://img.youtube.com/vi/zg40FHOAqC0/mqdefault.jpg"
+					},
+					{
+						"id": "D0WQK7cMJn8",
+						"title": "We Made A New Channel!",
+						"duration": 183,
+						"thumbnail": "https://img.youtube.com/vi/D0WQK7cMJn8/mqdefault.jpg"
+					},
+					{
+						"id": "OU36JDGzXb0",
+						"title": "Planets Around Black Holes",
+						"duration": 76,
+						"thumbnail": "https://img.youtube.com/vi/OU36JDGzXb0/mqdefault.jpg"
+					}
 				]
 			}
 		]
 	},
 	{
-		"name": "Fireship",
-		"slug": "fireship",
+		"name": "Tom Scott",
+		"slug": "tom-scott",
 		"number": 2,
-		"category": "Technology",
+		"category": "Education",
 		"sources": [
 			{
 				"type": "default",
-				"youtubeChannelId": "UCsBjURrPoezykLs9EqgamOA",
+				"youtubeChannelId": "UCBa659QWEk1AI4Tg--mrJ2A",
 				"videos": [
-					{ "id": "Mus_vwhTCq0", "title": "God-Tier Developer Roadmap", "duration": 719, "thumbnail": "https://img.youtube.com/vi/Mus_vwhTCq0/mqdefault.jpg" },
-					{ "id": "rx-kN_DLSOY", "title": "I built the mass same app in 10 mass languages", "duration": 664, "thumbnail": "https://img.youtube.com/vi/rx-kN_DLSOY/mqdefault.jpg" },
-					{ "id": "aXOChLn5ZdQ", "title": "Big O Notation in 100 Seconds", "duration": 170, "thumbnail": "https://img.youtube.com/vi/aXOChLn5ZdQ/mqdefault.jpg" },
-					{ "id": "TNhaISOUy6Q", "title": "10 Regrets of Experienced Programmers", "duration": 352, "thumbnail": "https://img.youtube.com/vi/TNhaISOUy6Q/mqdefault.jpg" },
-					{ "id": "dQw4w9WgXcQ", "title": "Never Gonna Give You Up (Easter Egg)", "duration": 212, "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" }
+					{
+						"id": "7DKv5H5Frt0",
+						"title": "After ten years, it's time to stop weekly videos.",
+						"duration": 491,
+						"thumbnail": "https://img.youtube.com/vi/7DKv5H5Frt0/mqdefault.jpg"
+					},
+					{
+						"id": "F0JDK_71yDg",
+						"title": "People are going to be angry about pylons.",
+						"duration": 438,
+						"thumbnail": "https://img.youtube.com/vi/F0JDK_71yDg/mqdefault.jpg"
+					},
+					{
+						"id": "Zl_5LT2fzak",
+						"title": "Why the government drops flies on California",
+						"duration": 396,
+						"thumbnail": "https://img.youtube.com/vi/Zl_5LT2fzak/mqdefault.jpg"
+					},
+					{
+						"id": "hNZy603as5w",
+						"title": "A robot just swapped my electric car's battery",
+						"duration": 324,
+						"thumbnail": "https://img.youtube.com/vi/hNZy603as5w/mqdefault.jpg"
+					},
+					{
+						"id": "pU9sHwNKc2c",
+						"title": "Why don't subtitles match dubbing?",
+						"duration": 506,
+						"thumbnail": "https://img.youtube.com/vi/pU9sHwNKc2c/mqdefault.jpg"
+					},
+					{
+						"id": "LDiXNsWQzD0",
+						"title": "Why use many streetlights when one will do?",
+						"duration": 338,
+						"thumbnail": "https://img.youtube.com/vi/LDiXNsWQzD0/mqdefault.jpg"
+					},
+					{
+						"id": "jplrbxI5GN8",
+						"title": "These tiny ships have a serious purpose",
+						"duration": 641,
+						"thumbnail": "https://img.youtube.com/vi/jplrbxI5GN8/mqdefault.jpg"
+					},
+					{
+						"id": "lIbfMjZ0ME4",
+						"title": "Every mistake I've made since 2014.",
+						"duration": 727,
+						"thumbnail": "https://img.youtube.com/vi/lIbfMjZ0ME4/mqdefault.jpg"
+					},
+					{
+						"id": "CmZdGo6b5yA",
+						"title": "Does the language you speak change how you think?",
+						"duration": 325,
+						"thumbnail": "https://img.youtube.com/vi/CmZdGo6b5yA/mqdefault.jpg"
+					},
+					{
+						"id": "j3OqAN4ISOw",
+						"title": "Boarding planes could have been very different",
+						"duration": 309,
+						"thumbnail": "https://img.youtube.com/vi/j3OqAN4ISOw/mqdefault.jpg"
+					},
+					{
+						"id": "XQIu5tZ0vbQ",
+						"title": "0-100 in less than a second. And I'm driving.",
+						"duration": 328,
+						"thumbnail": "https://img.youtube.com/vi/XQIu5tZ0vbQ/mqdefault.jpg"
+					},
+					{
+						"id": "CkZyZFa5qO0",
+						"title": "there’dn’t’ve",
+						"duration": 275,
+						"thumbnail": "https://img.youtube.com/vi/CkZyZFa5qO0/mqdefault.jpg"
+					},
+					{
+						"id": "ZgDBIzClmPg",
+						"title": "I finally rode the weird, curved German elevator.",
+						"duration": 211,
+						"thumbnail": "https://img.youtube.com/vi/ZgDBIzClmPg/mqdefault.jpg"
+					},
+					{
+						"id": "QqRREz0iBes",
+						"title": "The largest telescope that will ever be built*",
+						"duration": 1742,
+						"thumbnail": "https://img.youtube.com/vi/QqRREz0iBes/mqdefault.jpg"
+					},
+					{
+						"id": "3kwDVw0u4Kw",
+						"title": "Spherical houses weren't a great idea.",
+						"duration": 250,
+						"thumbnail": "https://img.youtube.com/vi/3kwDVw0u4Kw/mqdefault.jpg"
+					}
 				]
 			}
 		]
@@ -47,11 +217,200 @@
 				"type": "default",
 				"youtubeChannelId": "UCYO_jab_esuFRV4b17AJtAw",
 				"videos": [
-					{ "id": "WUvTyaaNkzM", "title": "But what is a neural network?", "duration": 1148, "thumbnail": "https://img.youtube.com/vi/WUvTyaaNkzM/mqdefault.jpg" },
-					{ "id": "aircAruvnKk", "title": "But what is the Fourier Transform?", "duration": 1235, "thumbnail": "https://img.youtube.com/vi/aircAruvnKk/mqdefault.jpg" },
-					{ "id": "r6sGWTCMz2k", "title": "The Essence of Linear Algebra", "duration": 973, "thumbnail": "https://img.youtube.com/vi/r6sGWTCMz2k/mqdefault.jpg" },
-					{ "id": "IHZwWFHWa-w", "title": "Gradient Descent", "duration": 1280, "thumbnail": "https://img.youtube.com/vi/IHZwWFHWa-w/mqdefault.jpg" },
-					{ "id": "kYB8IZa5AuE", "title": "But what is a convolution?", "duration": 1390, "thumbnail": "https://img.youtube.com/vi/kYB8IZa5AuE/mqdefault.jpg" }
+					{
+						"id": "ldxFjLJ3rVY",
+						"title": "This picture broke my brain",
+						"duration": 2692,
+						"thumbnail": "https://img.youtube.com/vi/ldxFjLJ3rVY/mqdefault.jpg"
+					},
+					{
+						"id": "Qoes9bTJtn0",
+						"title": "Bacteria Grid Puzzle Solution",
+						"duration": 180,
+						"thumbnail": "https://img.youtube.com/vi/Qoes9bTJtn0/mqdefault.jpg"
+					},
+					{
+						"id": "fsLh-NYhOoU",
+						"title": "The most beautiful formula not enough people understand",
+						"duration": 3624,
+						"thumbnail": "https://img.youtube.com/vi/fsLh-NYhOoU/mqdefault.jpg"
+					},
+					{
+						"id": "d0ai33oqqDE",
+						"title": "The lattice bacteria puzzle",
+						"duration": 62,
+						"thumbnail": "https://img.youtube.com/vi/d0ai33oqqDE/mqdefault.jpg"
+					},
+					{
+						"id": "7gG91SZwBoE",
+						"title": "Solution to the ladybug clock puzzle",
+						"duration": 154,
+						"thumbnail": "https://img.youtube.com/vi/7gG91SZwBoE/mqdefault.jpg"
+					},
+					{
+						"id": "BHdbsHFs2P0",
+						"title": "The Hairy Ball Theorem",
+						"duration": 1780,
+						"thumbnail": "https://img.youtube.com/vi/BHdbsHFs2P0/mqdefault.jpg"
+					},
+					{
+						"id": "t3jZ2xGOvYg",
+						"title": "The ladybug clock puzzle",
+						"duration": 61,
+						"thumbnail": "https://img.youtube.com/vi/t3jZ2xGOvYg/mqdefault.jpg"
+					},
+					{
+						"id": "FE-hM1kRK4Y",
+						"title": "Why Laplace transforms are so useful",
+						"duration": 1385,
+						"thumbnail": "https://img.youtube.com/vi/FE-hM1kRK4Y/mqdefault.jpg"
+					},
+					{
+						"id": "bnjKwiUg-kw",
+						"title": "The dynamics of e^(πi)",
+						"duration": 106,
+						"thumbnail": "https://img.youtube.com/vi/bnjKwiUg-kw/mqdefault.jpg"
+					},
+					{
+						"id": "j0wJBEZdwLs",
+						"title": "But what is a Laplace Transform?",
+						"duration": 2081,
+						"thumbnail": "https://img.youtube.com/vi/j0wJBEZdwLs/mqdefault.jpg"
+					},
+					{
+						"id": "-j8PzkZ70Lg",
+						"title": "The Physics of Euler's Formula | Laplace Transform Prelude",
+						"duration": 1669,
+						"thumbnail": "https://img.youtube.com/vi/-j8PzkZ70Lg/mqdefault.jpg"
+					},
+					{
+						"id": "M-MgQC6z3VU",
+						"title": "What was Euclid really doing? | Guest video by Ben Syversen",
+						"duration": 2009,
+						"thumbnail": "https://img.youtube.com/vi/M-MgQC6z3VU/mqdefault.jpg"
+					},
+					{
+						"id": "1lZpowy21Gc",
+						"title": "Incomplete open cubes",
+						"duration": 72,
+						"thumbnail": "https://img.youtube.com/vi/1lZpowy21Gc/mqdefault.jpg"
+					},
+					{
+						"id": "_BrFKp-U8GI",
+						"title": "Exploration & Epiphany | Guest video by Paul Dancstep",
+						"duration": 3132,
+						"thumbnail": "https://img.youtube.com/vi/_BrFKp-U8GI/mqdefault.jpg"
+					},
+					{
+						"id": "itRV2jEtV8Q",
+						"title": "Simulating and understanding phase change | Guest video by Vilas Winstein",
+						"duration": 2463,
+						"thumbnail": "https://img.youtube.com/vi/itRV2jEtV8Q/mqdefault.jpg"
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Fireship",
+		"slug": "fireship",
+		"number": 4,
+		"category": "Technology",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCsBjURrPoezykLs9EqgamOA",
+				"videos": [
+					{
+						"id": "nkY_s9HpL9M",
+						"title": "This new Linux distro is breaking the law, by design…",
+						"duration": 289,
+						"thumbnail": "https://img.youtube.com/vi/nkY_s9HpL9M/mqdefault.jpg"
+					},
+					{
+						"id": "qaB5HF4ax9M",
+						"title": "Google just changed the future of UI/UX design...",
+						"duration": 290,
+						"thumbnail": "https://img.youtube.com/vi/qaB5HF4ax9M/mqdefault.jpg"
+					},
+					{
+						"id": "ReAnFFqvCeA",
+						"title": "How to burn $30m on a JavaScript framework...",
+						"duration": 308,
+						"thumbnail": "https://img.youtube.com/vi/ReAnFFqvCeA/mqdefault.jpg"
+					},
+					{
+						"id": "Xn-gtHDsaPY",
+						"title": "7 new open source AI tools you need right now…",
+						"duration": 375,
+						"thumbnail": "https://img.youtube.com/vi/Xn-gtHDsaPY/mqdefault.jpg"
+					},
+					{
+						"id": "x36UmiSiEzc",
+						"title": "The greatest unsolved problem in computer science...",
+						"duration": 425,
+						"thumbnail": "https://img.youtube.com/vi/x36UmiSiEzc/mqdefault.jpg"
+					},
+					{
+						"id": "abbeIUOCzmw",
+						"title": "Cloudflare just slop forked Next.js…",
+						"duration": 317,
+						"thumbnail": "https://img.youtube.com/vi/abbeIUOCzmw/mqdefault.jpg"
+					},
+					{
+						"id": "wzzh7Not8XE",
+						"title": "When open-sourcing your code goes wrong...",
+						"duration": 399,
+						"thumbnail": "https://img.youtube.com/vi/wzzh7Not8XE/mqdefault.jpg"
+					},
+					{
+						"id": "1fUBWAETmkk",
+						"title": "TanStack Start in 100 Seconds",
+						"duration": 139,
+						"thumbnail": "https://img.youtube.com/vi/1fUBWAETmkk/mqdefault.jpg"
+					},
+					{
+						"id": "cxcb55zr2Q8",
+						"title": "How AI is breaking the SaaS business model...",
+						"duration": 302,
+						"thumbnail": "https://img.youtube.com/vi/cxcb55zr2Q8/mqdefault.jpg"
+					},
+					{
+						"id": "Ukt2gVz25PQ",
+						"title": "10 open source tools that feel illegal...",
+						"duration": 604,
+						"thumbnail": "https://img.youtube.com/vi/Ukt2gVz25PQ/mqdefault.jpg"
+					},
+					{
+						"id": "ssYt09bCgUY",
+						"title": "The wild rise of OpenClaw...",
+						"duration": 319,
+						"thumbnail": "https://img.youtube.com/vi/ssYt09bCgUY/mqdefault.jpg"
+					},
+					{
+						"id": "M4TufsFlv_o",
+						"title": "Bun in 100 Seconds",
+						"duration": 166,
+						"thumbnail": "https://img.youtube.com/vi/M4TufsFlv_o/mqdefault.jpg"
+					},
+					{
+						"id": "9uW6B9LPntY",
+						"title": "A brief history of programming...",
+						"duration": 369,
+						"thumbnail": "https://img.youtube.com/vi/9uW6B9LPntY/mqdefault.jpg"
+					},
+					{
+						"id": "MFsYaRnrcPQ",
+						"title": ".NET in 100 Seconds",
+						"duration": 164,
+						"thumbnail": "https://img.youtube.com/vi/MFsYaRnrcPQ/mqdefault.jpg"
+					},
+					{
+						"id": "EKOU3JWDNLI",
+						"title": "The unhinged world of tech in 2026...",
+						"duration": 551,
+						"thumbnail": "https://img.youtube.com/vi/EKOU3JWDNLI/mqdefault.jpg"
+					}
 				]
 			}
 		]
@@ -59,18 +418,207 @@
 	{
 		"name": "Veritasium",
 		"slug": "veritasium",
-		"number": 4,
+		"number": 5,
 		"category": "Science",
 		"sources": [
 			{
 				"type": "default",
 				"youtubeChannelId": "UCHnyfMqiRRG1u-2MsSQLbXA",
 				"videos": [
-					{ "id": "HeQX2HjkcNo", "title": "Parallel Worlds Probably Exist", "duration": 1177, "thumbnail": "https://img.youtube.com/vi/HeQX2HjkcNo/mqdefault.jpg" },
-					{ "id": "OxGsU8oIWjY", "title": "How Electricity Actually Works", "duration": 1483, "thumbnail": "https://img.youtube.com/vi/OxGsU8oIWjY/mqdefault.jpg" },
-					{ "id": "3LopI4YeC4I", "title": "The Bizarre Behavior of Rotating Bodies", "duration": 919, "thumbnail": "https://img.youtube.com/vi/3LopI4YeC4I/mqdefault.jpg" },
-					{ "id": "pTn6Ewhb27k", "title": "Why No One Has Measured The Speed Of Light", "duration": 1133, "thumbnail": "https://img.youtube.com/vi/pTn6Ewhb27k/mqdefault.jpg" },
-					{ "id": "AEIn3T6nDAo", "title": "The Surprising Secret of Synchronization", "duration": 1294, "thumbnail": "https://img.youtube.com/vi/AEIn3T6nDAo/mqdefault.jpg" }
+					{
+						"id": "9szhjhO9epA",
+						"title": "Making A Giant Zipper To Explain How It Works",
+						"duration": 1245,
+						"thumbnail": "https://img.youtube.com/vi/9szhjhO9epA/mqdefault.jpg"
+					},
+					{
+						"id": "R8oiho_gKSo",
+						"title": "The Shadow Illusion",
+						"duration": 58,
+						"thumbnail": "https://img.youtube.com/vi/R8oiho_gKSo/mqdefault.jpg"
+					},
+					{
+						"id": "Ol18JoeXlVI",
+						"title": "This Paradox Splits Smart People 50/50",
+						"duration": 1540,
+						"thumbnail": "https://img.youtube.com/vi/Ol18JoeXlVI/mqdefault.jpg"
+					},
+					{
+						"id": "DJ_5_JS9_Rs",
+						"title": "You Can't Feel Wet",
+						"duration": 54,
+						"thumbnail": "https://img.youtube.com/vi/DJ_5_JS9_Rs/mqdefault.jpg"
+					},
+					{
+						"id": "aoag03mSuXQ",
+						"title": "The Internet Was Weeks Away From Disaster and No One Knew",
+						"duration": 3180,
+						"thumbnail": "https://img.youtube.com/vi/aoag03mSuXQ/mqdefault.jpg"
+					},
+					{
+						"id": "qtPPfM7Tz1o",
+						"title": "The Crazy Physics of Jet Engines",
+						"duration": 175,
+						"thumbnail": "https://img.youtube.com/vi/qtPPfM7Tz1o/mqdefault.jpg"
+					},
+					{
+						"id": "cMx139eTxoc",
+						"title": "Asbestos is a bigger problem than we thought",
+						"duration": 3286,
+						"thumbnail": "https://img.youtube.com/vi/cMx139eTxoc/mqdefault.jpg"
+					},
+					{
+						"id": "Bl0WZvAeDik",
+						"title": "Rubber used to be useless…",
+						"duration": 98,
+						"thumbnail": "https://img.youtube.com/vi/Bl0WZvAeDik/mqdefault.jpg"
+					},
+					{
+						"id": "Bt3boxwRF84",
+						"title": "World’s Largest Spiderweb",
+						"duration": 80,
+						"thumbnail": "https://img.youtube.com/vi/Bt3boxwRF84/mqdefault.jpg"
+					},
+					{
+						"id": "6HVYHNTDOFs",
+						"title": "This Common Substance Was Once Worth Millions",
+						"duration": 1817,
+						"thumbnail": "https://img.youtube.com/vi/6HVYHNTDOFs/mqdefault.jpg"
+					},
+					{
+						"id": "XKSjCOKDtpk",
+						"title": "The Tiny Donut That Proved We Still Don't Understand Magnetism",
+						"duration": 2153,
+						"thumbnail": "https://img.youtube.com/vi/XKSjCOKDtpk/mqdefault.jpg"
+					},
+					{
+						"id": "w2TLv30F6UU",
+						"title": "How They Prevented The Citicorp Disaster",
+						"duration": 89,
+						"thumbnail": "https://img.youtube.com/vi/w2TLv30F6UU/mqdefault.jpg"
+					},
+					{
+						"id": "P-4pbFcERnk",
+						"title": "What Happens If You Keep Slowing Down?",
+						"duration": 1809,
+						"thumbnail": "https://img.youtube.com/vi/P-4pbFcERnk/mqdefault.jpg"
+					},
+					{
+						"id": "itSkBESLZeY",
+						"title": "What happens if you cut the green rope?",
+						"duration": 67,
+						"thumbnail": "https://img.youtube.com/vi/itSkBESLZeY/mqdefault.jpg"
+					},
+					{
+						"id": "fkxoaD47-Vo",
+						"title": "You're Only 6 Steps Away From Anyone On Earth",
+						"duration": 74,
+						"thumbnail": "https://img.youtube.com/vi/fkxoaD47-Vo/mqdefault.jpg"
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Lemmino",
+		"slug": "lemmino",
+		"number": 6,
+		"category": "Documentary",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCRcgy6GzDeccI7dkbbBna3Q",
+				"videos": [
+					{
+						"id": "uFI5WpK2sgg",
+						"title": "Shouting at Stars: A History of Interstellar Messages",
+						"duration": 8856,
+						"thumbnail": "https://img.youtube.com/vi/uFI5WpK2sgg/mqdefault.jpg"
+					},
+					{
+						"id": "jVpsLMCIB0Y",
+						"title": "The Unbreakable Kryptos Code",
+						"duration": 2821,
+						"thumbnail": "https://img.youtube.com/vi/jVpsLMCIB0Y/mqdefault.jpg"
+					},
+					{
+						"id": "nx4V9Uh_FW0",
+						"title": "5,000,000 - Q&A",
+						"duration": 1006,
+						"thumbnail": "https://img.youtube.com/vi/nx4V9Uh_FW0/mqdefault.jpg"
+					},
+					{
+						"id": "5u7euN1HTuU",
+						"title": "The Kennedy Assassination: Inside the Book Depository",
+						"duration": 5891,
+						"thumbnail": "https://img.youtube.com/vi/5u7euN1HTuU/mqdefault.jpg"
+					},
+					{
+						"id": "LhfCietvDZo",
+						"title": "Bygone Visions of Cosmic Neighbors",
+						"duration": 2051,
+						"thumbnail": "https://img.youtube.com/vi/LhfCietvDZo/mqdefault.jpg"
+					},
+					{
+						"id": "zy4ay9xfKpQ",
+						"title": "Seas #TeamSeas",
+						"duration": 154,
+						"thumbnail": "https://img.youtube.com/vi/zy4ay9xfKpQ/mqdefault.jpg"
+					},
+					{
+						"id": "lADBHDg-JtA",
+						"title": "The Enduring Mystery of Jack the Ripper",
+						"duration": 4149,
+						"thumbnail": "https://img.youtube.com/vi/lADBHDg-JtA/mqdefault.jpg"
+					},
+					{
+						"id": "CEg30z7cO-s",
+						"title": "4,000,000 - Q&A",
+						"duration": 637,
+						"thumbnail": "https://img.youtube.com/vi/CEg30z7cO-s/mqdefault.jpg"
+					},
+					{
+						"id": "nx2-4l4s4Nw",
+						"title": "Consumed by the Apocalypse",
+						"duration": 1579,
+						"thumbnail": "https://img.youtube.com/vi/nx2-4l4s4Nw/mqdefault.jpg"
+					},
+					{
+						"id": "SpeSpA3e56A",
+						"title": "Extraordinary Until Proven Otherwise",
+						"duration": 1665,
+						"thumbnail": "https://img.youtube.com/vi/SpeSpA3e56A/mqdefault.jpg"
+					},
+					{
+						"id": "CbUjuwhQPKs",
+						"title": "The Search For D. B. Cooper",
+						"duration": 1767,
+						"thumbnail": "https://img.youtube.com/vi/CbUjuwhQPKs/mqdefault.jpg"
+					},
+					{
+						"id": "iTOKRWgjOlg",
+						"title": "The Lost Colony of Roanoke",
+						"duration": 1673,
+						"thumbnail": "https://img.youtube.com/vi/iTOKRWgjOlg/mqdefault.jpg"
+					},
+					{
+						"id": "GbetzV4l4CY",
+						"title": "Trees #TeamTrees",
+						"duration": 138,
+						"thumbnail": "https://img.youtube.com/vi/GbetzV4l4CY/mqdefault.jpg"
+					},
+					{
+						"id": "RQdxHi4_Pvc",
+						"title": "The Universal S",
+						"duration": 1132,
+						"thumbnail": "https://img.youtube.com/vi/RQdxHi4_Pvc/mqdefault.jpg"
+					},
+					{
+						"id": "XJKv8XqO5zQ",
+						"title": "Democratic Elections in the European Union [Swedish]",
+						"duration": 432,
+						"thumbnail": "https://img.youtube.com/vi/XJKv8XqO5zQ/mqdefault.jpg"
+					}
 				]
 			}
 		]
@@ -78,18 +626,415 @@
 	{
 		"name": "Technology Connections",
 		"slug": "technology-connections",
-		"number": 5,
+		"number": 7,
 		"category": "Technology",
 		"sources": [
 			{
 				"type": "default",
 				"youtubeChannelId": "UCy0tKL1T7wFoYcxCe0xjN6Q",
 				"videos": [
-					{ "id": "GiYO1TObNz8", "title": "The Dishwasher: A Detergent Story", "duration": 1821, "thumbnail": "https://img.youtube.com/vi/GiYO1TObNz8/mqdefault.jpg" },
-					{ "id": "7J52mDjZzto", "title": "Heat Pumps: the Future of Home Heating", "duration": 1523, "thumbnail": "https://img.youtube.com/vi/7J52mDjZzto/mqdefault.jpg" },
-					{ "id": "jiejNAUwcQ8", "title": "Brown; color is weird", "duration": 1212, "thumbnail": "https://img.youtube.com/vi/jiejNAUwcQ8/mqdefault.jpg" },
-					{ "id": "dI-JW2UIAG0", "title": "LED Lights: Why They Flicker", "duration": 1105, "thumbnail": "https://img.youtube.com/vi/dI-JW2UIAG0/mqdefault.jpg" },
-					{ "id": "nBbMnLhSxu4", "title": "Why Toasters Are Terrible", "duration": 1367, "thumbnail": "https://img.youtube.com/vi/nBbMnLhSxu4/mqdefault.jpg" }
+					{
+						"id": "mmCfOazZCNQ",
+						"title": "Oil pressure is the only thing keeping an engine alive",
+						"duration": 3286,
+						"thumbnail": "https://img.youtube.com/vi/mmCfOazZCNQ/mqdefault.jpg"
+					},
+					{
+						"id": "KtQ9nt2ZeGM",
+						"title": "You are being misled about renewable energy technology.",
+						"duration": 5520,
+						"thumbnail": "https://img.youtube.com/vi/KtQ9nt2ZeGM/mqdefault.jpg"
+					},
+					{
+						"id": "tCVsyY5TRQI",
+						"title": "I made my whole-home humidifier slightly less terrifying",
+						"duration": 2079,
+						"thumbnail": "https://img.youtube.com/vi/tCVsyY5TRQI/mqdefault.jpg"
+					},
+					{
+						"id": "oy7BrKNmZAQ",
+						"title": "It's the Christmas light video again - 2025 edition",
+						"duration": 2028,
+						"thumbnail": "https://img.youtube.com/vi/oy7BrKNmZAQ/mqdefault.jpg"
+					},
+					{
+						"id": "INZybkX8tLI",
+						"title": "My car charger can boil water really fast",
+						"duration": 1396,
+						"thumbnail": "https://img.youtube.com/vi/INZybkX8tLI/mqdefault.jpg"
+					},
+					{
+						"id": "8I4Jc-WLsrs",
+						"title": "This cassette player is built into an 8-track cartridge",
+						"duration": 1648,
+						"thumbnail": "https://img.youtube.com/vi/8I4Jc-WLsrs/mqdefault.jpg"
+					},
+					{
+						"id": "DAX2_mPr9W8",
+						"title": "I was right about dishwasher pods, and now I can prove it",
+						"duration": 2487,
+						"thumbnail": "https://img.youtube.com/vi/DAX2_mPr9W8/mqdefault.jpg"
+					},
+					{
+						"id": "ms8uu0zeU88",
+						"title": "Video projectors used to be ridiculously cool",
+						"duration": 2080,
+						"thumbnail": "https://img.youtube.com/vi/ms8uu0zeU88/mqdefault.jpg"
+					},
+					{
+						"id": "Aytf6ARcs8s",
+						"title": "Catalytic converters are simple, but getting them to work is not",
+						"duration": 2507,
+						"thumbnail": "https://img.youtube.com/vi/Aytf6ARcs8s/mqdefault.jpg"
+					},
+					{
+						"id": "JzClLWL-Eys",
+						"title": "Desiccant dehumidifiers are fascinating... but not for everyone",
+						"duration": 1760,
+						"thumbnail": "https://img.youtube.com/vi/JzClLWL-Eys/mqdefault.jpg"
+					},
+					{
+						"id": "HFYWHeBhYbM",
+						"title": "VHS-C: a lazy idea that's also perfect",
+						"duration": 1957,
+						"thumbnail": "https://img.youtube.com/vi/HFYWHeBhYbM/mqdefault.jpg"
+					},
+					{
+						"id": "SaKKzZRrPIg",
+						"title": "Induction lamps: fluorescent lighting's final form",
+						"duration": 1806,
+						"thumbnail": "https://img.youtube.com/vi/SaKKzZRrPIg/mqdefault.jpg"
+					},
+					{
+						"id": "W96a8svXo14",
+						"title": "The \"standard\" car charger is usually overkill—but your electrician might not know that",
+						"duration": 1947,
+						"thumbnail": "https://img.youtube.com/vi/W96a8svXo14/mqdefault.jpg"
+					},
+					{
+						"id": "OSCOQ6vnLwU",
+						"title": "Closed captions on DVDs are getting left behind",
+						"duration": 2027,
+						"thumbnail": "https://img.youtube.com/vi/OSCOQ6vnLwU/mqdefault.jpg"
+					},
+					{
+						"id": "j_QfX0SYCE8",
+						"title": "Dehumidifiers are confusing. Here's why.",
+						"duration": 3094,
+						"thumbnail": "https://img.youtube.com/vi/j_QfX0SYCE8/mqdefault.jpg"
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Bon Appetit",
+		"slug": "bon-appetit",
+		"number": 8,
+		"category": "Cooking",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCbpMy0Fg74eXXkvxJrtEn3w",
+				"videos": [
+					{
+						"id": "VJ5ffV-0sRg",
+						"title": "The Secret to the Emeril's Holy Trinity Base",
+						"duration": 30,
+						"thumbnail": "https://img.youtube.com/vi/VJ5ffV-0sRg/mqdefault.jpg"
+					},
+					{
+						"id": "A2BLyqu_dCU",
+						"title": "Charlie Puth Mixes a Song Using Test Kitchen Appliances",
+						"duration": 512,
+						"thumbnail": "https://img.youtube.com/vi/A2BLyqu_dCU/mqdefault.jpg"
+					},
+					{
+						"id": "pRR6OuEGOsQ",
+						"title": "The 10 Pans Pro Chefs Really Use in Restaurants | Restaurant Talks | Bon Appétit",
+						"duration": 520,
+						"thumbnail": "https://img.youtube.com/vi/pRR6OuEGOsQ/mqdefault.jpg"
+					},
+					{
+						"id": "3QEiVctiJcc",
+						"title": "The Chef With 2 Michelin Stars at 22-Years-Old",
+						"duration": 42,
+						"thumbnail": "https://img.youtube.com/vi/3QEiVctiJcc/mqdefault.jpg"
+					},
+					{
+						"id": "40gouhZfGEc",
+						"title": "A Brick Is Holding Up This 1100° Shawarma Fire",
+						"duration": 50,
+						"thumbnail": "https://img.youtube.com/vi/40gouhZfGEc/mqdefault.jpg"
+					},
+					{
+						"id": "RwYossga_jI",
+						"title": "This Restaurant Earned a Michelin Star in Just 9 Months | On The Line | Bon Appétit",
+						"duration": 987,
+						"thumbnail": "https://img.youtube.com/vi/RwYossga_jI/mqdefault.jpg"
+					},
+					{
+						"id": "XLbOdJblvNE",
+						"title": "4 Seekh Kebabs for Under $2 in Delhi 🤯",
+						"duration": 76,
+						"thumbnail": "https://img.youtube.com/vi/XLbOdJblvNE/mqdefault.jpg"
+					},
+					{
+						"id": "fUd0qcR2PbA",
+						"title": "How New Orleans' Best Po-Boy is Made | Made to Order | Bon Appétit",
+						"duration": 573,
+						"thumbnail": "https://img.youtube.com/vi/fUd0qcR2PbA/mqdefault.jpg"
+					},
+					{
+						"id": "nz9PMO51u6E",
+						"title": "The Easiest Way to Make Frozen Cocktails",
+						"duration": 41,
+						"thumbnail": "https://img.youtube.com/vi/nz9PMO51u6E/mqdefault.jpg"
+					},
+					{
+						"id": "gC8wGB2J--4",
+						"title": "The Man Running a 50-Year-Old Paratha Stand on the Delhi Streets | Street Eats | Bon Appétit",
+						"duration": 653,
+						"thumbnail": "https://img.youtube.com/vi/gC8wGB2J--4/mqdefault.jpg"
+					},
+					{
+						"id": "b5ZyCaKs2fM",
+						"title": "Fried Chicken Sandwich 🤝 Chili Oil",
+						"duration": 51,
+						"thumbnail": "https://img.youtube.com/vi/b5ZyCaKs2fM/mqdefault.jpg"
+					},
+					{
+						"id": "DvuH-1bS9Lw",
+						"title": "Savor Carmel-by-the-Sea with Citi Strata Elite℠ Card",
+						"duration": 61,
+						"thumbnail": "https://img.youtube.com/vi/DvuH-1bS9Lw/mqdefault.jpg"
+					},
+					{
+						"id": "Gk6CcMtKd-A",
+						"title": "The 22-Year Old Chef Running a 2-Michelin-Star Restaurant | On The Line | Bon Appétit",
+						"duration": 920,
+						"thumbnail": "https://img.youtube.com/vi/Gk6CcMtKd-A/mqdefault.jpg"
+					},
+					{
+						"id": "Er4mdPd-isk",
+						"title": "Cook Restaurant-Quality Pizza in 90 Seconds at Home",
+						"duration": 57,
+						"thumbnail": "https://img.youtube.com/vi/Er4mdPd-isk/mqdefault.jpg"
+					},
+					{
+						"id": "BKJ4MS3znP4",
+						"title": "Pro Chef Makes His Own McDonald's Filet-O-Fish",
+						"duration": 79,
+						"thumbnail": "https://img.youtube.com/vi/BKJ4MS3znP4/mqdefault.jpg"
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Mark Rober",
+		"slug": "mark-rober",
+		"number": 9,
+		"category": "Science",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCY1kMZp36IQSyNx_9h4mpCg",
+				"videos": [
+					{
+						"id": "wJMrk69WOdw",
+						"title": "The SECRET to Fighting Laundry Stains #TidePartner",
+						"duration": 87,
+						"thumbnail": "https://img.youtube.com/vi/wJMrk69WOdw/mqdefault.jpg"
+					},
+					{
+						"id": "VZ0oIzvzkGI",
+						"title": "Secret To Defusing A Soda Grenade",
+						"duration": 48,
+						"thumbnail": "https://img.youtube.com/vi/VZ0oIzvzkGI/mqdefault.jpg"
+					},
+					{
+						"id": "Xg1ro-zG7AM",
+						"title": "Engineers vs Junkyard RC Car Death Match",
+						"duration": 1132,
+						"thumbnail": "https://img.youtube.com/vi/Xg1ro-zG7AM/mqdefault.jpg"
+					},
+					{
+						"id": "YPOfYntrrcU",
+						"title": "Your fingers are actually a clock",
+						"duration": 36,
+						"thumbnail": "https://img.youtube.com/vi/YPOfYntrrcU/mqdefault.jpg"
+					},
+					{
+						"id": "9BsQpGhwVAY",
+						"title": "pride comes before flop",
+						"duration": 39,
+						"thumbnail": "https://img.youtube.com/vi/9BsQpGhwVAY/mqdefault.jpg"
+					},
+					{
+						"id": "kgSHJhX6ly0",
+						"title": "Can You Ship A Potato Through The Mail?",
+						"duration": 42,
+						"thumbnail": "https://img.youtube.com/vi/kgSHJhX6ly0/mqdefault.jpg"
+					},
+					{
+						"id": "X_rh2S74UJs",
+						"title": "Why MRI Machines Are So Dangerous",
+						"duration": 60,
+						"thumbnail": "https://img.youtube.com/vi/X_rh2S74UJs/mqdefault.jpg"
+					},
+					{
+						"id": "c4dH8MpXYH4",
+						"title": "Disney’s Secret for Making Ghosts REAL",
+						"duration": 48,
+						"thumbnail": "https://img.youtube.com/vi/c4dH8MpXYH4/mqdefault.jpg"
+					},
+					{
+						"id": "lSDoCbQsKxY",
+						"title": "Why The Weatherman Is Always Wrong!",
+						"duration": 65,
+						"thumbnail": "https://img.youtube.com/vi/lSDoCbQsKxY/mqdefault.jpg"
+					},
+					{
+						"id": "qsJgJjOG5tY",
+						"title": "How Close To Beat My Goalie Robot?",
+						"duration": 26,
+						"thumbnail": "https://img.youtube.com/vi/qsJgJjOG5tY/mqdefault.jpg"
+					},
+					{
+						"id": "lNOjw3KRsqg",
+						"title": "How Superglue Actually Works",
+						"duration": 52,
+						"thumbnail": "https://img.youtube.com/vi/lNOjw3KRsqg/mqdefault.jpg"
+					},
+					{
+						"id": "oZOCmEDROHY",
+						"title": "Help Me Pass Ronaldo in Subscribers!",
+						"duration": 50,
+						"thumbnail": "https://img.youtube.com/vi/oZOCmEDROHY/mqdefault.jpg"
+					},
+					{
+						"id": "AGUO3YQ_Y38",
+						"title": "Ronaldo vs My Goalie Robot",
+						"duration": 58,
+						"thumbnail": "https://img.youtube.com/vi/AGUO3YQ_Y38/mqdefault.jpg"
+					},
+					{
+						"id": "jjpjjcMeujM",
+						"title": "Ronaldo vs My Unbeatable Goalie Robot",
+						"duration": 1594,
+						"thumbnail": "https://img.youtube.com/vi/jjpjjcMeujM/mqdefault.jpg"
+					},
+					{
+						"id": "jfUU24gaqNg",
+						"title": "3 Levels of Elephant Toothpaste",
+						"duration": 36,
+						"thumbnail": "https://img.youtube.com/vi/jfUU24gaqNg/mqdefault.jpg"
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Lofi Girl",
+		"slug": "lofi-girl",
+		"number": 10,
+		"category": "Music",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCSJ4gkVC6NrvII8umztf0Ow",
+				"videos": [
+					{
+						"id": "ioJkg0QRqBk",
+						"title": "💚",
+						"duration": 14,
+						"thumbnail": "https://img.youtube.com/vi/ioJkg0QRqBk/mqdefault.jpg"
+					},
+					{
+						"id": "pl4Dj50nvts",
+						"title": "💚",
+						"duration": 14,
+						"thumbnail": "https://img.youtube.com/vi/pl4Dj50nvts/mqdefault.jpg"
+					},
+					{
+						"id": "IE8o__RlvKU",
+						"title": "and if you’re wondering, no, i’m not bored 💁‍♀️ #lofigirl #study",
+						"duration": 35,
+						"thumbnail": "https://img.youtube.com/vi/IE8o__RlvKU/mqdefault.jpg"
+					},
+					{
+						"id": "H4vJgoTWfLs",
+						"title": "can you find the milk-sipping cow? 🐮 #lofigirl #canyoufindit #fyp",
+						"duration": 6,
+						"thumbnail": "https://img.youtube.com/vi/H4vJgoTWfLs/mqdefault.jpg"
+					},
+					{
+						"id": "NOGghTGD368",
+						"title": "isn't she perfect? 😭  #lofigirl #dog",
+						"duration": 12,
+						"thumbnail": "https://img.youtube.com/vi/NOGghTGD368/mqdefault.jpg"
+					},
+					{
+						"id": "zUAMlcJwq6U",
+						"title": "i knew it 🫣 #lofigirl #study",
+						"duration": 7,
+						"thumbnail": "https://img.youtube.com/vi/zUAMlcJwq6U/mqdefault.jpg"
+					},
+					{
+						"id": "a2wBr2brGww",
+						"title": "2nd chance don’t miss it!!!!! 🍀🍀🤞🔥💖🙌🍀✨💖🍀✨🙌🍀⭐✨🍀 #lofigirl",
+						"duration": 6,
+						"thumbnail": "https://img.youtube.com/vi/a2wBr2brGww/mqdefault.jpg"
+					},
+					{
+						"id": "_Daz2oauvO4",
+						"title": "if history class taught me anything, it’s this.",
+						"duration": 7,
+						"thumbnail": "https://img.youtube.com/vi/_Daz2oauvO4/mqdefault.jpg"
+					},
+					{
+						"id": "FyrWckpE_4s",
+						"title": "i don't feel concerned by this matter 😇  #lofigirl #cat",
+						"duration": 3,
+						"thumbnail": "https://img.youtube.com/vi/FyrWckpE_4s/mqdefault.jpg"
+					},
+					{
+						"id": "lTlyPmomR-o",
+						"title": "mentally, i’m already at home  #lofigirl #study",
+						"duration": 6,
+						"thumbnail": "https://img.youtube.com/vi/lTlyPmomR-o/mqdefault.jpg"
+					},
+					{
+						"id": "lZv3RV2nGDQ",
+						"title": "earth is cool and all, but dragons tho??? 😭",
+						"duration": 9,
+						"thumbnail": "https://img.youtube.com/vi/lZv3RV2nGDQ/mqdefault.jpg"
+					},
+					{
+						"id": "ogqOf1lqQjQ",
+						"title": "you got this, trust yourself 🧡  #lofigirl #girltalk #girltogirl",
+						"duration": 6,
+						"thumbnail": "https://img.youtube.com/vi/ogqOf1lqQjQ/mqdefault.jpg"
+					},
+					{
+						"id": "IjEX2NKbq5c",
+						"title": "that's why i take him everywhere now 🧡 #lofigirl #catshorts",
+						"duration": 11,
+						"thumbnail": "https://img.youtube.com/vi/IjEX2NKbq5c/mqdefault.jpg"
+					},
+					{
+						"id": "eTP5PZ8NoeU",
+						"title": "Sweet Dreams Lofi 💤  8 hours of relaxing beats to sleep to",
+						"duration": 28800,
+						"thumbnail": "https://img.youtube.com/vi/eTP5PZ8NoeU/mqdefault.jpg"
+					},
+					{
+						"id": "2s-O5xM0Xds",
+						"title": "is there a better option?  #lofigirl #booktube",
+						"duration": 11,
+						"thumbnail": "https://img.youtube.com/vi/2s-O5xM0Xds/mqdefault.jpg"
+					}
 				]
 			}
 		]

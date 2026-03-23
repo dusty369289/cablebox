@@ -1,19 +1,28 @@
 /**
- * Build script: fetches YouTube RSS feeds for curated channels,
- * then calls YouTube Data API v3 for video durations.
+ * Build script: fetches video data for curated channels using YouTube Data API v3.
+ *
+ * Uses the uploads playlist (UC... → UU...) to get recent videos,
+ * then fetches durations in a single batch call.
  *
  * Usage:
- *   npx tsx scripts/build-channels.ts
+ *   npm run build:channels
  *
- * Requires YOUTUBE_API_KEY environment variable.
+ * Requires YOUTUBE_API_KEY in .env file.
  * Outputs static/data/channels.json
+ *
+ * Quota cost: ~2 units per channel + 1 unit per 50 videos for durations.
+ * For 10 channels with 15 videos each: ~12 units total (of 10,000/day free).
  */
 
+import 'dotenv/config';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const API_BASE = 'https://www.googleapis.com/youtube/v3';
+const VIDEOS_PER_CHANNEL = 15;
 
 type ChannelDefinition = {
 	name: string;
@@ -38,84 +47,89 @@ type OutputChannel = {
 	sources: [{ type: 'default'; youtubeChannelId: string; videos: VideoData[] }];
 };
 
-// --- RSS Parsing ---
+// --- YouTube Data API helpers ---
 
-const RSS_URL = (channelId: string) =>
-	`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+async function apiFetch(endpoint: string, params: Record<string, string>, apiKey: string) {
+	const url = new URL(`${API_BASE}/${endpoint}`);
+	url.searchParams.set('key', apiKey);
+	for (const [k, v] of Object.entries(params)) {
+		url.searchParams.set(k, v);
+	}
 
-async function fetchRSSVideos(channelId: string): Promise<{ id: string; title: string }[]> {
-	const url = RSS_URL(channelId);
-	const response = await fetch(url, {
-		headers: {
-			'User-Agent': 'Mozilla/5.0 (compatible; ChannelSurfer/1.0; build-script)'
-		}
-	});
-
+	const response = await fetch(url.toString());
 	if (!response.ok) {
-		console.warn(`RSS fetch failed for ${channelId}: ${response.status}`);
-		return [];
+		const text = await response.text();
+		throw new Error(`YouTube API ${endpoint} error (${response.status}): ${text}`);
 	}
+	return response.json();
+}
 
-	const xml = await response.text();
-	const videos: { id: string; title: string }[] = [];
+/**
+ * Get the uploads playlist ID for a channel via the channels endpoint.
+ */
+async function getUploadsPlaylistId(channelId: string, apiKey: string): Promise<string> {
+	const data = await apiFetch('channels', {
+		part: 'contentDetails',
+		id: channelId
+	}, apiKey) as {
+		items: Array<{
+			contentDetails: {
+				relatedPlaylists: { uploads: string };
+			};
+		}>;
+	};
 
-	// Simple regex-based XML parsing (no dependency needed for Atom feeds)
-	const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
-	let match;
-	while ((match = entryRegex.exec(xml)) !== null) {
-		const entry = match[1];
-		const videoIdMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
-		const titleMatch = entry.match(/<media:title>([^<]+)<\/media:title>/);
-		if (videoIdMatch && titleMatch) {
-			videos.push({
-				id: videoIdMatch[1],
-				title: decodeXMLEntities(titleMatch[1])
-			});
-		}
+	if (!data.items || data.items.length === 0) {
+		throw new Error(`Channel ${channelId} not found`);
 	}
-
-	return videos;
+	return data.items[0].contentDetails.relatedPlaylists.uploads;
 }
 
-function decodeXMLEntities(str: string): string {
-	return str
-		.replace(/&amp;/g, '&')
-		.replace(/&lt;/g, '<')
-		.replace(/&gt;/g, '>')
-		.replace(/&quot;/g, '"')
-		.replace(/&#39;/g, "'")
-		.replace(/&apos;/g, "'");
+/**
+ * Fetch recent video IDs + titles from a channel's uploads playlist.
+ */
+async function fetchPlaylistVideos(
+	channelId: string,
+	maxResults: number,
+	apiKey: string
+): Promise<{ id: string; title: string }[]> {
+	const playlistId = await getUploadsPlaylistId(channelId, apiKey);
+
+	const data = await apiFetch('playlistItems', {
+		part: 'snippet',
+		playlistId,
+		maxResults: String(maxResults)
+	}, apiKey) as {
+		items: Array<{
+			snippet: {
+				title: string;
+				resourceId: { videoId: string };
+			};
+		}>;
+	};
+
+	return data.items.map((item) => ({
+		id: item.snippet.resourceId.videoId,
+		title: item.snippet.title
+	}));
 }
 
-// --- YouTube Data API ---
-
-function parseISO8601Duration(iso: string): number {
-	const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-	if (!match) return 0;
-	const hours = parseInt(match[1] || '0', 10);
-	const minutes = parseInt(match[2] || '0', 10);
-	const seconds = parseInt(match[3] || '0', 10);
-	return hours * 3600 + minutes * 60 + seconds;
-}
-
+/**
+ * Fetch durations for a batch of video IDs.
+ */
 async function fetchVideoDurations(
 	videoIds: string[],
 	apiKey: string
 ): Promise<Map<string, number>> {
 	const durations = new Map<string, number>();
 
-	// API accepts up to 50 IDs per request
 	for (let i = 0; i < videoIds.length; i += 50) {
 		const batch = videoIds.slice(i, i + 50);
-		const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${batch.join(',')}&key=${apiKey}`;
 
-		const response = await fetch(url);
-		if (!response.ok) {
-			const text = await response.text();
-			throw new Error(`YouTube API error (${response.status}): ${text}`);
-		}
-
-		const data = (await response.json()) as {
+		const data = await apiFetch('videos', {
+			part: 'contentDetails',
+			id: batch.join(',')
+		}, apiKey) as {
 			items: Array<{ id: string; contentDetails: { duration: string } }>;
 		};
 
@@ -127,43 +141,58 @@ async function fetchVideoDurations(
 	return durations;
 }
 
+function parseISO8601Duration(iso: string): number {
+	const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+	if (!match) return 0;
+	const hours = parseInt(match[1] || '0', 10);
+	const minutes = parseInt(match[2] || '0', 10);
+	const seconds = parseInt(match[3] || '0', 10);
+	return hours * 3600 + minutes * 60 + seconds;
+}
+
 // --- Main ---
 
 async function main() {
 	const apiKey = process.env.YOUTUBE_API_KEY;
 	if (!apiKey) {
 		console.error('Error: YOUTUBE_API_KEY environment variable is required.');
-		console.error('Get one at https://console.cloud.google.com/apis/credentials');
+		console.error('Create .env with YOUTUBE_API_KEY=your_key');
+		console.error('Get a key at https://console.cloud.google.com/apis/credentials');
 		process.exit(1);
 	}
 
 	const definitionsPath = resolve(__dirname, 'channel-definitions.json');
 	const definitions: ChannelDefinition[] = JSON.parse(readFileSync(definitionsPath, 'utf-8'));
 
-	console.log(`Processing ${definitions.length} channels...`);
+	console.log(`Processing ${definitions.length} channels...\n`);
 
-	// Step 1: Fetch RSS feeds for all channels
+	// Step 1: Fetch recent videos from each channel's uploads playlist
 	const allVideoIds: string[] = [];
 	const channelVideosMap = new Map<string, { id: string; title: string }[]>();
 
 	for (const def of definitions) {
-		console.log(`  Fetching RSS: ${def.name} (${def.youtubeChannelId})`);
-		const videos = await fetchRSSVideos(def.youtubeChannelId);
-		channelVideosMap.set(def.slug, videos);
-		allVideoIds.push(...videos.map((v) => v.id));
-		console.log(`    Found ${videos.length} videos`);
+		console.log(`  ${def.name} (${def.youtubeChannelId})`);
+		try {
+			const videos = await fetchPlaylistVideos(def.youtubeChannelId, VIDEOS_PER_CHANNEL, apiKey);
+			channelVideosMap.set(def.slug, videos);
+			allVideoIds.push(...videos.map((v) => v.id));
+			console.log(`    ✓ ${videos.length} videos`);
+		} catch (err) {
+			console.error(`    ✗ Failed: ${err}`);
+			channelVideosMap.set(def.slug, []);
+		}
 	}
 
 	// Step 2: Fetch durations for all videos in one batch
 	const uniqueIds = [...new Set(allVideoIds)];
 	console.log(`\nFetching durations for ${uniqueIds.length} unique videos...`);
 	const durations = await fetchVideoDurations(uniqueIds, apiKey);
-	console.log(`  Got durations for ${durations.size} videos`);
+	console.log(`  ✓ Got ${durations.size} durations`);
 
 	// Step 3: Assemble output
 	const output: OutputChannel[] = definitions.map((def) => {
-		const rssVideos = channelVideosMap.get(def.slug) || [];
-		const videos: VideoData[] = rssVideos
+		const playlistVideos = channelVideosMap.get(def.slug) || [];
+		const videos: VideoData[] = playlistVideos
 			.filter((v) => durations.has(v.id) && durations.get(v.id)! > 0)
 			.map((v) => ({
 				id: v.id,
@@ -194,8 +223,7 @@ async function main() {
 	writeFileSync(outputPath, JSON.stringify(output, null, '\t'));
 
 	const totalVideos = output.reduce((sum, ch) => sum + ch.sources[0].videos.length, 0);
-	console.log(`\nDone! Wrote ${output.length} channels with ${totalVideos} total videos to:`);
-	console.log(`  ${outputPath}`);
+	console.log(`\nDone! ${output.length} channels, ${totalVideos} videos → ${outputPath}`);
 }
 
 main().catch((err) => {
