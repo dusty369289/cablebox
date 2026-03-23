@@ -2,6 +2,7 @@
 	import TVGuideRow from './TVGuideRow.svelte';
 	import { getScheduleRange } from '$lib/scheduling/scheduler.js';
 	import type { Channel } from '$lib/scheduling/types.js';
+	import { onMount } from 'svelte';
 
 	type Props = {
 		channels: Channel[];
@@ -13,30 +14,32 @@
 
 	let { channels, currentChannelIndex, now, onTune, onImport }: Props = $props();
 
-	// Guide shows a 2-hour window centered around now (30min past, 90min future)
-	const LOOKBACK = 30 * 60; // 30 minutes
-	const LOOKAHEAD = 90 * 60; // 90 minutes
+	// Total visible window: 30min past + 6hrs future
+	const LOOKBACK = 30 * 60;
+	const LOOKAHEAD = 6 * 60 * 60;
 	const RANGE_DURATION = LOOKBACK + LOOKAHEAD;
+
+	// Each hour = 300px of horizontal space
+	const PX_PER_SECOND = 300 / 3600;
+	const TOTAL_WIDTH = Math.ceil(RANGE_DURATION * PX_PER_SECOND);
+	const CHANNEL_COL_WIDTH = 140;
 
 	let rangeStart = $derived(now - LOOKBACK);
 
-	// Generate time markers every 30 minutes
+	// Time markers every 30 minutes
 	let timeMarkers = $derived.by(() => {
-		const markers: { time: number; label: string }[] = [];
-		// Round start to nearest 30-min boundary
+		const markers: { time: number; label: string; left: number }[] = [];
 		const firstMarker = Math.ceil(rangeStart / 1800) * 1800;
 		for (let t = firstMarker; t < rangeStart + RANGE_DURATION; t += 1800) {
 			const date = new Date(t * 1000);
 			const label = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-			markers.push({ time: t, label });
+			markers.push({ time: t, label, left: (t - rangeStart) * PX_PER_SECOND });
 		}
 		return markers;
 	});
 
-	// Current time indicator position as percentage
-	let nowPosition = $derived(((now - rangeStart) / RANGE_DURATION) * 100);
+	let nowLeft = $derived((now - rangeStart) * PX_PER_SECOND);
 
-	// Compute schedule slots for each channel
 	let channelSlots = $derived(
 		channels.map((ch) => ({
 			channel: ch,
@@ -44,44 +47,52 @@
 		}))
 	);
 
-	let guideEl: HTMLDivElement | undefined = $state();
+	let scrollContainer: HTMLDivElement | undefined = $state();
 
-	// Auto-scroll to keep active channel visible
+	// On mount, scroll to show "now" near the left
+	onMount(() => {
+		if (scrollContainer) {
+			scrollContainer.scrollLeft = Math.max(0, nowLeft - 60);
+		}
+	});
+
+	// Keep active channel row visible vertically
 	$effect(() => {
-		if (guideEl && currentChannelIndex >= 0) {
-			const row = guideEl.querySelector('.guide-row.active');
+		if (scrollContainer && currentChannelIndex >= 0) {
+			const row = scrollContainer.querySelector('.guide-row.active');
 			row?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 		}
 	});
 </script>
 
 <div class="tv-guide">
-	<div class="guide-header">
-		<div class="header-label">
-			<span class="header-title">GUIDE</span>
-			<button class="header-btn" onclick={onImport} title="Import Channels (I)">+ Import</button>
+	<div class="guide-scroll" bind:this={scrollContainer}>
+		<!-- Header row -->
+		<div class="guide-header" style="width: {TOTAL_WIDTH + CHANNEL_COL_WIDTH}px;">
+			<div class="header-label">
+				<span class="header-title">GUIDE</span>
+				<button class="header-btn" onclick={onImport} title="Import Channels (I)">+ Import</button>
+			</div>
+			<div class="time-axis" style="width: {TOTAL_WIDTH}px;">
+				{#each timeMarkers as marker (marker.time)}
+					<div class="time-marker" style="left: {marker.left}px;">
+						{marker.label}
+					</div>
+				{/each}
+				<div class="now-line" style="left: {nowLeft}px;"></div>
+			</div>
 		</div>
-		<div class="time-axis">
-			{#each timeMarkers as marker (marker.time)}
-				<div
-					class="time-marker"
-					style="left: {((marker.time - rangeStart) / RANGE_DURATION) * 100}%"
-				>
-					{marker.label}
-				</div>
-			{/each}
-			<div class="now-line" style="left: {nowPosition}%"></div>
-		</div>
-	</div>
 
-	<div class="guide-body" bind:this={guideEl}>
+		<!-- Channel rows -->
 		{#each channelSlots as { channel, slots }, i (channel.slug)}
 			<TVGuideRow
 				{channel}
 				{slots}
 				isActive={i === currentChannelIndex}
 				{rangeStart}
-				rangeDuration={RANGE_DURATION}
+				pxPerSecond={PX_PER_SECOND}
+				totalWidth={TOTAL_WIDTH}
+				channelColWidth={CHANNEL_COL_WIDTH}
 				{now}
 				{onTune}
 			/>
@@ -108,23 +119,39 @@
 	}
 
 	@keyframes slide-up {
-		from {
-			transform: translateY(100%);
-		}
-		to {
-			transform: translateY(0);
-		}
+		from { transform: translateY(100%); }
+		to { transform: translateY(0); }
+	}
+
+	.guide-scroll {
+		overflow: auto;
+		flex: 1;
+	}
+
+	/* Scrollbar styling */
+	.guide-scroll::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	.guide-scroll::-webkit-scrollbar-track {
+		background: var(--color-surface);
+	}
+	.guide-scroll::-webkit-scrollbar-thumb {
+		background: var(--color-border);
+		border-radius: 4px;
 	}
 
 	.guide-header {
 		display: flex;
 		border-bottom: 2px solid var(--color-border);
-		flex-shrink: 0;
+		position: sticky;
+		top: 0;
+		z-index: 2;
+		background: var(--color-guide-bg);
 	}
 
 	.header-label {
 		flex-shrink: 0;
-		width: 160px;
 		height: 32px;
 		padding: 0 6px;
 		border-right: 2px solid var(--color-border);
@@ -133,6 +160,9 @@
 		align-items: center;
 		gap: 4px;
 		overflow: hidden;
+		position: sticky;
+		left: 0;
+		z-index: 3;
 	}
 
 	.header-title {
@@ -163,10 +193,9 @@
 	}
 
 	.time-axis {
-		flex: 1;
 		position: relative;
 		height: 32px;
-		overflow: hidden;
+		flex-shrink: 0;
 	}
 
 	.time-marker {
@@ -174,7 +203,6 @@
 		top: 8px;
 		color: var(--color-text-dim);
 		font-size: var(--guide-font-size-sm);
-		transform: translateX(-50%);
 		white-space: nowrap;
 	}
 
@@ -187,40 +215,10 @@
 		z-index: 1;
 	}
 
-	.guide-body {
-		overflow-y: auto;
-		flex: 1;
-	}
-
-	/* Scrollbar styling */
-	.guide-body::-webkit-scrollbar {
-		width: 8px;
-	}
-
-	.guide-body::-webkit-scrollbar-track {
-		background: var(--color-surface);
-	}
-
-	.guide-body::-webkit-scrollbar-thumb {
-		background: var(--color-border);
-		border-radius: 4px;
-	}
-
-	/* Mobile: full-height overlay, hide time axis */
 	@media (max-width: 640px) {
 		.tv-guide {
 			max-height: 70vh;
 			max-height: 70dvh;
-		}
-
-		.header-label {
-			width: 100%;
-			border-right: none;
-			justify-content: center;
-		}
-
-		.time-axis {
-			display: none;
 		}
 	}
 </style>
