@@ -303,7 +303,7 @@
 					⛶
 				</button>
 				<button class="ctrl-btn" onclick={() => (showGuide = !showGuide)} title="Guide (G)">
-					☰
+					GUIDE
 				</button>
 				<button class="ctrl-btn" onclick={() => (showManager = !showManager)} title="Settings (E)">
 					&#9881;
@@ -497,6 +497,7 @@
 		background: var(--color-surface-hover);
 		border-color: var(--color-primary);
 	}
+
 
 	/* Mobile responsive */
 	@media (max-width: 640px) {
