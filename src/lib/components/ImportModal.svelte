@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { validateAndParse } from '$lib/bookmarklet/importer.js';
 	import { saveUserChannel } from '$lib/data/channel-store.js';
 	import type { Channel } from '$lib/scheduling/types.js';
@@ -10,6 +11,15 @@
 	};
 
 	let { onImport, onClose, nextChannelNumber }: Props = $props();
+	let bookmarkletHref = $state('');
+
+	onMount(async () => {
+		try {
+			const res = await fetch('/bookmarklet.js');
+			const code = await res.text();
+			bookmarkletHref = `javascript:void(${encodeURIComponent(`(function(){${code}})()`)})`;
+		} catch { /* bookmarklet.js not built yet */ }
+	});
 
 	let jsonInput = $state('');
 	let error = $state('');
@@ -77,8 +87,22 @@
 		</div>
 
 		<div class="modal-body">
+			<div class="bookmarklet-box">
+				<div class="bookmarklet-label">1. Drag this to your bookmarks bar:</div>
+				{#if bookmarkletHref}
+					<a class="bookmarklet-link" href={bookmarkletHref} onclick={(e) => e.preventDefault()}>
+						Channel Surfer
+					</a>
+				{:else}
+					<span class="bookmarklet-loading">Loading bookmarklet...</span>
+				{/if}
+				<div class="bookmarklet-hint">
+					Then visit any YouTube page and click it to scan videos.
+				</div>
+			</div>
+
 			<p class="instructions">
-				Paste the JSON from the Channel Surfer bookmarklet below.
+				2. Paste the exported JSON below:
 			</p>
 
 			<textarea
@@ -168,6 +192,40 @@
 	}
 
 	.instructions { font-size: 12px; color: #888; margin: 0; }
+
+	.bookmarklet-box {
+		background: #0a1a0a;
+		border: 1px dashed #3a3;
+		border-radius: 6px;
+		padding: 14px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.bookmarklet-label { font-size: 12px; color: #888; }
+
+	.bookmarklet-link {
+		display: inline-block;
+		background: #1a3a1a;
+		border: 2px solid #3a3;
+		color: #3a3;
+		padding: 8px 20px;
+		border-radius: 4px;
+		font-family: monospace;
+		font-size: 14px;
+		font-weight: bold;
+		text-decoration: none;
+		cursor: grab;
+	}
+	.bookmarklet-link:hover { background: #2a4a2a; color: #5c5; }
+	.bookmarklet-link:active { cursor: grabbing; }
+
+	.bookmarklet-loading { font-size: 12px; color: #555; }
+
+	.bookmarklet-hint { font-size: 11px; color: #555; }
 
 	.json-input {
 		width: 100%;
