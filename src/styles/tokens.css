@@ -1,0 +1,36 @@
+:root {
+	/* Retro TV color palette */
+	--color-bg: #000000;
+	--color-surface: #0a1a0a;
+	--color-surface-hover: #1a2a1a;
+	--color-border: #1a3a1a;
+	--color-primary: #33aa33;
+	--color-primary-dim: #1a6a1a;
+	--color-primary-bright: #55cc55;
+	--color-text: #cccccc;
+	--color-text-dim: #888888;
+	--color-text-bright: #ffffff;
+	--color-danger: #ff3333;
+	--color-guide-bg: rgba(0, 10, 0, 0.95);
+	--color-guide-now: #1a4a1a;
+	--color-guide-program: #0d2a0d;
+	--color-overlay-bg: rgba(0, 0, 0, 0.85);
+
+	/* Typography */
+	--font-mono: 'Courier New', 'Consolas', monospace;
+
+	/* Spacing */
+	--space-xs: 4px;
+	--space-sm: 8px;
+	--space-md: 12px;
+	--space-lg: 16px;
+	--space-xl: 20px;
+
+	/* Z-index layers */
+	--z-player: 0;
+	--z-overlay: 5;
+	--z-banner: 10;
+	--z-controls: 15;
+	--z-guide: 20;
+	--z-crt: 50;
+}

@@ -4,6 +4,8 @@
 	import TVGuide from '$lib/components/TVGuide.svelte';
 	import ChannelBanner from '$lib/components/ChannelBanner.svelte';
 	import VolumeControl from '$lib/components/VolumeControl.svelte';
+	import CRTOverlay from '$lib/components/CRTOverlay.svelte';
+	import StaticTransition from '$lib/components/StaticTransition.svelte';
 	import { loadDefaultChannels } from '$lib/data/loader.js';
 	import { getScheduleAt } from '$lib/scheduling/scheduler.js';
 	import {
@@ -21,7 +23,9 @@
 		getVolume,
 		isMuted,
 		toggleMuted,
-		setVolume
+		setVolume,
+		isCrtEnabled,
+		toggleCrt
 	} from '$lib/stores/settings.svelte.js';
 	import type { Channel, ScheduleResult } from '$lib/scheduling/types.js';
 
@@ -29,6 +33,7 @@
 	let schedule = $state<ScheduleResult | null>(null);
 	let showGuide = $state(false);
 	let paused = $state(false);
+	let showStatic = $state(false);
 	let tickInterval: ReturnType<typeof setInterval> | null = null;
 	let tvPlayer: TVPlayer | undefined = $state();
 
@@ -59,6 +64,11 @@
 		schedule = getScheduleAt(channel, now);
 	}
 
+	function triggerStatic() {
+		showStatic = true;
+		setTimeout(() => { showStatic = false; }, 400);
+	}
+
 	function handleVideoEnd() {
 		paused = false;
 		updateSchedule();
@@ -69,6 +79,7 @@
 		const idx = channels.findIndex((ch) => ch.slug === channel.slug);
 		if (idx >= 0) {
 			paused = false;
+			triggerStatic();
 			switchToChannel(idx);
 			updateSchedule();
 		}
@@ -115,6 +126,7 @@
 			case 'ArrowUp':
 			case '+':
 				event.preventDefault();
+				triggerStatic();
 				channelUp();
 				paused = false;
 				updateSchedule();
@@ -122,6 +134,7 @@
 			case 'ArrowDown':
 			case '-':
 				event.preventDefault();
+				triggerStatic();
 				channelDown();
 				paused = false;
 				updateSchedule();
@@ -139,6 +152,11 @@
 			case 'G':
 				event.preventDefault();
 				showGuide = !showGuide;
+				break;
+			case 'c':
+			case 'C':
+				event.preventDefault();
+				toggleCrt();
 				break;
 			case 'm':
 			case 'M':
@@ -165,6 +183,7 @@
 					if (numberTimeout) clearTimeout(numberTimeout);
 					numberTimeout = setTimeout(() => {
 						const num = parseInt(numberBuffer, 10);
+						triggerStatic();
 						switchToChannelByNumber(num);
 						paused = false;
 						updateSchedule();
@@ -181,6 +200,7 @@
 	let videoId = $derived(schedule?.video.id ?? '');
 	let startSeconds = $derived(schedule?.offsetSeconds ?? 0);
 	let videoTitle = $derived(schedule?.video.title ?? '');
+	let crtEnabled = $derived(isCrtEnabled());
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -227,8 +247,14 @@
 				<button class="ctrl-btn" onclick={() => (showGuide = !showGuide)} title="Guide (G)">
 					☰
 				</button>
+				<button class="ctrl-btn" class:active-toggle={crtEnabled} onclick={toggleCrt} title="CRT Effect (C)">
+					CRT
+				</button>
 			</div>
 		</div>
+
+		<StaticTransition active={showStatic} />
+		<CRTOverlay enabled={crtEnabled} />
 
 		{#if showGuide}
 			<TVGuide
@@ -330,5 +356,11 @@
 	.ctrl-btn:hover {
 		background: rgba(51, 170, 51, 0.2);
 		border-color: #3a3;
+	}
+
+	.ctrl-btn.active-toggle {
+		color: #5c5;
+		border-color: #3a3;
+		background: rgba(51, 170, 51, 0.15);
 	}
 </style>
