@@ -7,6 +7,7 @@
 	import CRTOverlay from '$lib/components/CRTOverlay.svelte';
 	import StaticTransition from '$lib/components/StaticTransition.svelte';
 	import ImportModal from '$lib/components/ImportModal.svelte';
+	import ChannelManager from '$lib/components/ChannelManager.svelte';
 	import { loadDefaultChannels } from '$lib/data/loader.js';
 	import { getUserChannels } from '$lib/data/channel-store.js';
 	import { getScheduleAt } from '$lib/scheduling/scheduler.js';
@@ -28,6 +29,7 @@
 		toggleCrt,
 		getTheme,
 		cycleTheme,
+		getHiddenDefaults,
 		THEMES
 	} from '$lib/stores/settings.svelte.js';
 	import type { Channel, ScheduleResult } from '$lib/scheduling/types.js';
@@ -38,7 +40,9 @@
 	let schedule = $state<ScheduleResult | null>(null);
 	let showGuide = $state(false);
 	let showImport = $state(false);
+	let showManager = $state(false);
 	let showStatic = $state(false);
+	let allChannelsUnfiltered = $state<Channel[]>([]);
 	let tickInterval: ReturnType<typeof setInterval> | null = null;
 	let tvPlayer: TVPlayer | undefined = $state();
 
@@ -84,7 +88,14 @@
 			if (ch.number === 0) ch.number = maxDefault + 1 + i;
 		});
 
-		setChannels([...defaults, ...userChannels]);
+		allChannelsUnfiltered = [...defaults, ...userChannels];
+		applyChannelFilters();
+	}
+
+	function applyChannelFilters() {
+		const hidden = new Set(getHiddenDefaults());
+		const visible = allChannelsUnfiltered.filter((ch) => !hidden.has(ch.slug));
+		setChannels(visible);
 	}
 
 	onMount(async () => {
@@ -144,6 +155,11 @@
 		updateSchedule();
 	}
 
+	async function handleManagerChanged() {
+		await loadAllChannels();
+		updateSchedule();
+	}
+
 	function toggleFullscreen() {
 		if (document.fullscreenElement) {
 			document.exitFullscreen();
@@ -198,6 +214,11 @@
 			case 'I':
 				event.preventDefault();
 				showImport = !showImport;
+				break;
+			case 'e':
+			case 'E':
+				event.preventDefault();
+				showManager = !showManager;
 				break;
 			case 'c':
 			case 'C':
@@ -316,6 +337,9 @@
 				<button class="ctrl-btn" onclick={cycleTheme} title="Theme (T)">
 					{themeLabel}
 				</button>
+				<button class="ctrl-btn" onclick={() => (showManager = !showManager)} title="Manage Channels (E)">
+					&#9881;
+				</button>
 				<button class="ctrl-btn" onclick={() => (showImport = !showImport)} title="Import Channels (I)">
 					+
 				</button>
@@ -324,6 +348,14 @@
 
 		<StaticTransition active={showStatic} />
 		<CRTOverlay enabled={crtEnabled} />
+
+		{#if showManager}
+			<ChannelManager
+				channels={allChannelsUnfiltered}
+				onChanged={handleManagerChanged}
+				onClose={() => (showManager = false)}
+			/>
+		{/if}
 
 		{#if showImport}
 			<ImportModal

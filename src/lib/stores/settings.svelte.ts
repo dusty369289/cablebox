@@ -17,13 +17,15 @@ type Settings = {
 	muted: boolean;
 	crtEnabled: boolean;
 	theme: Theme;
+	hiddenDefaults: string[]; // slugs of hidden default channels
 };
 
 const defaults: Settings = {
 	volume: 80,
 	muted: false,
 	crtEnabled: true,
-	theme: 'cable-90s'
+	theme: 'cable-90s',
+	hiddenDefaults: []
 };
 
 function loadSettings(): Settings {
@@ -70,6 +72,17 @@ export function cycleTheme() {
 	const idx = THEMES.findIndex((t) => t.id === settings.theme);
 	const next = THEMES[(idx + 1) % THEMES.length];
 	setTheme(next.id);
+}
+
+export function getHiddenDefaults(): string[] { return settings.hiddenDefaults; }
+export function isDefaultHidden(slug: string): boolean { return settings.hiddenDefaults.includes(slug); }
+export function toggleDefaultChannel(slug: string) {
+	if (settings.hiddenDefaults.includes(slug)) {
+		settings.hiddenDefaults = settings.hiddenDefaults.filter((s) => s !== slug);
+	} else {
+		settings.hiddenDefaults = [...settings.hiddenDefaults, slug];
+	}
+	saveSettings(settings);
 }
 
 /** Apply theme to the document root. Call on init and on change. */
