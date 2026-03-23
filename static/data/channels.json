@@ -1,0 +1,97 @@
+[
+	{
+		"name": "Kurzgesagt",
+		"slug": "kurzgesagt",
+		"number": 1,
+		"category": "Science",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCsXVk37bltHxD1rDPwtNM8Q",
+				"videos": [
+					{ "id": "JtUAAXe_0VI", "title": "The Solar System Is Not Like You Think", "duration": 751, "thumbnail": "https://img.youtube.com/vi/JtUAAXe_0VI/mqdefault.jpg" },
+					{ "id": "p_8yK2kmxoo", "title": "What If Earth Got Hit by a Giant Solar Flare?", "duration": 646, "thumbnail": "https://img.youtube.com/vi/p_8yK2kmxoo/mqdefault.jpg" },
+					{ "id": "DEfrocLgnHk", "title": "Black Holes from the Dawn of the Universe", "duration": 680, "thumbnail": "https://img.youtube.com/vi/DEfrocLgnHk/mqdefault.jpg" },
+					{ "id": "uD4izuDMUQA", "title": "Overpopulation & Africa", "duration": 735, "thumbnail": "https://img.youtube.com/vi/uD4izuDMUQA/mqdefault.jpg" },
+					{ "id": "LEENEFaVUzU", "title": "The Most Complex Language in the World", "duration": 711, "thumbnail": "https://img.youtube.com/vi/LEENEFaVUzU/mqdefault.jpg" }
+				]
+			}
+		]
+	},
+	{
+		"name": "Fireship",
+		"slug": "fireship",
+		"number": 2,
+		"category": "Technology",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCsBjURrPoezykLs9EqgamOA",
+				"videos": [
+					{ "id": "Mus_vwhTCq0", "title": "God-Tier Developer Roadmap", "duration": 719, "thumbnail": "https://img.youtube.com/vi/Mus_vwhTCq0/mqdefault.jpg" },
+					{ "id": "rx-kN_DLSOY", "title": "I built the mass same app in 10 mass languages", "duration": 664, "thumbnail": "https://img.youtube.com/vi/rx-kN_DLSOY/mqdefault.jpg" },
+					{ "id": "aXOChLn5ZdQ", "title": "Big O Notation in 100 Seconds", "duration": 170, "thumbnail": "https://img.youtube.com/vi/aXOChLn5ZdQ/mqdefault.jpg" },
+					{ "id": "TNhaISOUy6Q", "title": "10 Regrets of Experienced Programmers", "duration": 352, "thumbnail": "https://img.youtube.com/vi/TNhaISOUy6Q/mqdefault.jpg" },
+					{ "id": "dQw4w9WgXcQ", "title": "Never Gonna Give You Up (Easter Egg)", "duration": 212, "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" }
+				]
+			}
+		]
+	},
+	{
+		"name": "3Blue1Brown",
+		"slug": "3blue1brown",
+		"number": 3,
+		"category": "Science",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCYO_jab_esuFRV4b17AJtAw",
+				"videos": [
+					{ "id": "WUvTyaaNkzM", "title": "But what is a neural network?", "duration": 1148, "thumbnail": "https://img.youtube.com/vi/WUvTyaaNkzM/mqdefault.jpg" },
+					{ "id": "aircAruvnKk", "title": "But what is the Fourier Transform?", "duration": 1235, "thumbnail": "https://img.youtube.com/vi/aircAruvnKk/mqdefault.jpg" },
+					{ "id": "r6sGWTCMz2k", "title": "The Essence of Linear Algebra", "duration": 973, "thumbnail": "https://img.youtube.com/vi/r6sGWTCMz2k/mqdefault.jpg" },
+					{ "id": "IHZwWFHWa-w", "title": "Gradient Descent", "duration": 1280, "thumbnail": "https://img.youtube.com/vi/IHZwWFHWa-w/mqdefault.jpg" },
+					{ "id": "kYB8IZa5AuE", "title": "But what is a convolution?", "duration": 1390, "thumbnail": "https://img.youtube.com/vi/kYB8IZa5AuE/mqdefault.jpg" }
+				]
+			}
+		]
+	},
+	{
+		"name": "Veritasium",
+		"slug": "veritasium",
+		"number": 4,
+		"category": "Science",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCHnyfMqiRRG1u-2MsSQLbXA",
+				"videos": [
+					{ "id": "HeQX2HjkcNo", "title": "Parallel Worlds Probably Exist", "duration": 1177, "thumbnail": "https://img.youtube.com/vi/HeQX2HjkcNo/mqdefault.jpg" },
+					{ "id": "OxGsU8oIWjY", "title": "How Electricity Actually Works", "duration": 1483, "thumbnail": "https://img.youtube.com/vi/OxGsU8oIWjY/mqdefault.jpg" },
+					{ "id": "3LopI4YeC4I", "title": "The Bizarre Behavior of Rotating Bodies", "duration": 919, "thumbnail": "https://img.youtube.com/vi/3LopI4YeC4I/mqdefault.jpg" },
+					{ "id": "pTn6Ewhb27k", "title": "Why No One Has Measured The Speed Of Light", "duration": 1133, "thumbnail": "https://img.youtube.com/vi/pTn6Ewhb27k/mqdefault.jpg" },
+					{ "id": "AEIn3T6nDAo", "title": "The Surprising Secret of Synchronization", "duration": 1294, "thumbnail": "https://img.youtube.com/vi/AEIn3T6nDAo/mqdefault.jpg" }
+				]
+			}
+		]
+	},
+	{
+		"name": "Technology Connections",
+		"slug": "technology-connections",
+		"number": 5,
+		"category": "Technology",
+		"sources": [
+			{
+				"type": "default",
+				"youtubeChannelId": "UCy0tKL1T7wFoYcxCe0xjN6Q",
+				"videos": [
+					{ "id": "GiYO1TObNz8", "title": "The Dishwasher: A Detergent Story", "duration": 1821, "thumbnail": "https://img.youtube.com/vi/GiYO1TObNz8/mqdefault.jpg" },
+					{ "id": "7J52mDjZzto", "title": "Heat Pumps: the Future of Home Heating", "duration": 1523, "thumbnail": "https://img.youtube.com/vi/7J52mDjZzto/mqdefault.jpg" },
+					{ "id": "jiejNAUwcQ8", "title": "Brown; color is weird", "duration": 1212, "thumbnail": "https://img.youtube.com/vi/jiejNAUwcQ8/mqdefault.jpg" },
+					{ "id": "dI-JW2UIAG0", "title": "LED Lights: Why They Flicker", "duration": 1105, "thumbnail": "https://img.youtube.com/vi/dI-JW2UIAG0/mqdefault.jpg" },
+					{ "id": "nBbMnLhSxu4", "title": "Why Toasters Are Terrible", "duration": 1367, "thumbnail": "https://img.youtube.com/vi/nBbMnLhSxu4/mqdefault.jpg" }
+				]
+			}
+		]
+	}
+]

@@ -1,0 +1,72 @@
+[
+	{
+		"name": "Kurzgesagt",
+		"slug": "kurzgesagt",
+		"number": 1,
+		"category": "Science",
+		"youtubeChannelId": "UCsXVk37bltHxD1rDPwtNM8Q"
+	},
+	{
+		"name": "Tom Scott",
+		"slug": "tom-scott",
+		"number": 2,
+		"category": "Education",
+		"youtubeChannelId": "UCBa659QWEk1AI4Tg--mrJ2A"
+	},
+	{
+		"name": "3Blue1Brown",
+		"slug": "3blue1brown",
+		"number": 3,
+		"category": "Science",
+		"youtubeChannelId": "UCYO_jab_esuFRV4b17AJtAw"
+	},
+	{
+		"name": "Fireship",
+		"slug": "fireship",
+		"number": 4,
+		"category": "Technology",
+		"youtubeChannelId": "UCsBjURrPoezykLs9EqgamOA"
+	},
+	{
+		"name": "Veritasium",
+		"slug": "veritasium",
+		"number": 5,
+		"category": "Science",
+		"youtubeChannelId": "UCHnyfMqiRRG1u-2MsSQLbXA"
+	},
+	{
+		"name": "Lemmino",
+		"slug": "lemmino",
+		"number": 6,
+		"category": "Documentary",
+		"youtubeChannelId": "UCRcgy6GzDeccI7dkbbBna3Q"
+	},
+	{
+		"name": "Technology Connections",
+		"slug": "technology-connections",
+		"number": 7,
+		"category": "Technology",
+		"youtubeChannelId": "UCy0tKL1T7wFoYcxCe0xjN6Q"
+	},
+	{
+		"name": "Bon Appetit",
+		"slug": "bon-appetit",
+		"number": 8,
+		"category": "Cooking",
+		"youtubeChannelId": "UCbpMy0Fg74eXXkvxJrtEn3w"
+	},
+	{
+		"name": "Mark Rober",
+		"slug": "mark-rober",
+		"number": 9,
+		"category": "Science",
+		"youtubeChannelId": "UCY1kMZp36IQSyNx_9h4mpCg"
+	},
+	{
+		"name": "Lofi Girl",
+		"slug": "lofi-girl",
+		"number": 10,
+		"category": "Music",
+		"youtubeChannelId": "UCSJ4gkVC6NrvII8umztf0Aw"
+	}
+]
