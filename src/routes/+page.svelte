@@ -6,7 +6,9 @@
 	import VolumeControl from '$lib/components/VolumeControl.svelte';
 	import CRTOverlay from '$lib/components/CRTOverlay.svelte';
 	import StaticTransition from '$lib/components/StaticTransition.svelte';
+	import ImportModal from '$lib/components/ImportModal.svelte';
 	import { loadDefaultChannels } from '$lib/data/loader.js';
+	import { getUserChannels } from '$lib/data/channel-store.js';
 	import { getScheduleAt } from '$lib/scheduling/scheduler.js';
 	import {
 		setChannels,
@@ -31,6 +33,7 @@
 	let started = $state(false); // User must interact before autoplay works
 	let schedule = $state<ScheduleResult | null>(null);
 	let showGuide = $state(false);
+	let showImport = $state(false);
 	let showStatic = $state(false);
 	let tickInterval: ReturnType<typeof setInterval> | null = null;
 	let tvPlayer: TVPlayer | undefined = $state();
@@ -62,9 +65,24 @@
 		}
 	}
 
+	async function loadAllChannels() {
+		const defaults = await loadDefaultChannels();
+		let userChannels: Channel[] = [];
+		try {
+			userChannels = await getUserChannels();
+		} catch { /* IndexedDB unavailable */ }
+
+		// Assign channel numbers to user channels starting after defaults
+		const maxDefault = Math.max(0, ...defaults.map((c) => c.number));
+		userChannels.forEach((ch, i) => {
+			if (ch.number === 0) ch.number = maxDefault + 1 + i;
+		});
+
+		setChannels([...defaults, ...userChannels]);
+	}
+
 	onMount(async () => {
-		const channels = await loadDefaultChannels();
-		setChannels(channels);
+		await loadAllChannels();
 		startClock();
 		loaded = true;
 		updateSchedule();
@@ -104,6 +122,12 @@
 			switchToChannel(idx);
 			updateSchedule();
 		}
+	}
+
+	async function handleImport(channels: Channel[]) {
+		showImport = false;
+		await loadAllChannels();
+		updateSchedule();
 	}
 
 	function toggleFullscreen() {
@@ -155,6 +179,11 @@
 			case 'G':
 				event.preventDefault();
 				showGuide = !showGuide;
+				break;
+			case 'i':
+			case 'I':
+				event.preventDefault();
+				showImport = !showImport;
 				break;
 			case 'c':
 			case 'C':
@@ -259,11 +288,22 @@
 				<button class="ctrl-btn" class:active-toggle={crtEnabled} onclick={toggleCrt} title="CRT Effect (C)">
 					CRT
 				</button>
+				<button class="ctrl-btn" onclick={() => (showImport = !showImport)} title="Import Channels (I)">
+					+
+				</button>
 			</div>
 		</div>
 
 		<StaticTransition active={showStatic} />
 		<CRTOverlay enabled={crtEnabled} />
+
+		{#if showImport}
+			<ImportModal
+				onImport={handleImport}
+				onClose={() => (showImport = false)}
+				nextChannelNumber={allChannels.length > 0 ? Math.max(...allChannels.map(c => c.number)) + 1 : 1}
+			/>
+		{/if}
 
 		{#if showGuide}
 			<TVGuide
