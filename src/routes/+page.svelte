@@ -3,6 +3,7 @@
 	import TVPlayer from '$lib/components/TVPlayer.svelte';
 	import TVGuide from '$lib/components/TVGuide.svelte';
 	import ChannelBanner from '$lib/components/ChannelBanner.svelte';
+	import VolumeControl from '$lib/components/VolumeControl.svelte';
 	import { loadDefaultChannels } from '$lib/data/loader.js';
 	import { getScheduleAt } from '$lib/scheduling/scheduler.js';
 	import {
@@ -16,12 +17,20 @@
 		getChannels
 	} from '$lib/stores/channels.svelte.js';
 	import { startClock, stopClock, getCurrentTime } from '$lib/stores/clock.svelte.js';
+	import {
+		getVolume,
+		isMuted,
+		toggleMuted,
+		setVolume
+	} from '$lib/stores/settings.svelte.js';
 	import type { Channel, ScheduleResult } from '$lib/scheduling/types.js';
 
 	let loaded = $state(false);
 	let schedule = $state<ScheduleResult | null>(null);
 	let showGuide = $state(false);
+	let paused = $state(false);
 	let tickInterval: ReturnType<typeof setInterval> | null = null;
+	let tvPlayer: TVPlayer | undefined = $state();
 
 	// Number input buffer for direct channel entry
 	let numberBuffer = '';
@@ -33,7 +42,6 @@
 		startClock();
 		loaded = true;
 
-		// Update schedule every second
 		tickInterval = setInterval(updateSchedule, 1000);
 		updateSchedule();
 	});
@@ -44,6 +52,7 @@
 	});
 
 	function updateSchedule() {
+		if (paused) return; // Don't update while paused
 		const channel = getCurrentChannel();
 		if (!channel) return;
 		const now = getCurrentTime();
@@ -51,6 +60,7 @@
 	}
 
 	function handleVideoEnd() {
+		paused = false;
 		updateSchedule();
 	}
 
@@ -58,8 +68,41 @@
 		const channels = getChannels();
 		const idx = channels.findIndex((ch) => ch.slug === channel.slug);
 		if (idx >= 0) {
+			paused = false;
 			switchToChannel(idx);
 			updateSchedule();
+		}
+	}
+
+	function togglePause() {
+		if (paused) {
+			// Resume: snap back to live schedule
+			paused = false;
+			tvPlayer?.play();
+			updateSchedule();
+		} else {
+			paused = true;
+			tvPlayer?.pause();
+		}
+	}
+
+	function toggleFullscreen() {
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+		} else {
+			document.documentElement.requestFullscreen();
+		}
+	}
+
+	function handleVolumeChange(vol: number) {
+		tvPlayer?.setVolume(vol);
+	}
+
+	function handleMuteToggle(muted: boolean) {
+		if (muted) {
+			tvPlayer?.mute();
+		} else {
+			tvPlayer?.unmute();
 		}
 	}
 
@@ -73,22 +116,47 @@
 			case '+':
 				event.preventDefault();
 				channelUp();
+				paused = false;
 				updateSchedule();
 				break;
 			case 'ArrowDown':
 			case '-':
 				event.preventDefault();
 				channelDown();
+				paused = false;
 				updateSchedule();
+				break;
+			case ' ':
+				event.preventDefault();
+				togglePause();
+				break;
+			case 'f':
+			case 'F':
+				event.preventDefault();
+				toggleFullscreen();
 				break;
 			case 'g':
 			case 'G':
 				event.preventDefault();
 				showGuide = !showGuide;
 				break;
+			case 'm':
+			case 'M':
+				event.preventDefault();
+				toggleMuted();
+				if (isMuted()) {
+					tvPlayer?.mute();
+				} else {
+					tvPlayer?.unmute();
+				}
+				break;
 			case 'Escape':
 				event.preventDefault();
-				if (showGuide) showGuide = false;
+				if (document.fullscreenElement) {
+					document.exitFullscreen();
+				} else if (showGuide) {
+					showGuide = false;
+				}
 				break;
 			default:
 				if (event.key >= '0' && event.key <= '9') {
@@ -98,6 +166,7 @@
 					numberTimeout = setTimeout(() => {
 						const num = parseInt(numberBuffer, 10);
 						switchToChannelByNumber(num);
+						paused = false;
 						updateSchedule();
 						numberBuffer = '';
 					}, 800);
@@ -126,18 +195,40 @@
 	</div>
 {:else}
 	<div class="tv-container">
-		<TVPlayer {videoId} {startSeconds} onVideoEnd={handleVideoEnd} />
+		<TVPlayer
+			bind:this={tvPlayer}
+			{videoId}
+			{startSeconds}
+			onVideoEnd={handleVideoEnd}
+		/>
 		<ChannelBanner channel={currentChannel} {videoTitle} />
 
-		<div class="channel-indicator">
-			{#if currentChannel}
-				CH {currentChannel.number}
+		<div class="top-bar">
+			<div class="channel-indicator">
+				{#if currentChannel}
+					CH {currentChannel.number}
+				{/if}
+			</div>
+			{#if paused}
+				<div class="pause-indicator">PAUSED</div>
 			{/if}
 		</div>
 
-		<button class="guide-toggle" onclick={() => (showGuide = !showGuide)}>
-			{showGuide ? 'Hide Guide' : 'Guide (G)'}
-		</button>
+		<div class="controls-bar">
+			<VolumeControl onVolumeChange={handleVolumeChange} onMuteToggle={handleMuteToggle} />
+
+			<div class="control-buttons">
+				<button class="ctrl-btn" onclick={togglePause} title="Pause/Play (Space)">
+					{paused ? '▶' : '⏸'}
+				</button>
+				<button class="ctrl-btn" onclick={toggleFullscreen} title="Fullscreen (F)">
+					⛶
+				</button>
+				<button class="ctrl-btn" onclick={() => (showGuide = !showGuide)} title="Guide (G)">
+					☰
+				</button>
+			</div>
+		</div>
 
 		{#if showGuide}
 			<TVGuide
@@ -175,34 +266,69 @@
 		height: 100vh;
 	}
 
-	.channel-indicator {
+	.top-bar {
 		position: absolute;
 		top: 20px;
 		right: 20px;
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		z-index: 10;
+	}
+
+	.channel-indicator {
 		font-family: monospace;
 		font-size: 1.2rem;
 		color: #3a3;
 		background: rgba(0, 0, 0, 0.6);
 		padding: 4px 12px;
-		z-index: 10;
 	}
 
-	.guide-toggle {
+	.pause-indicator {
+		font-family: monospace;
+		font-size: 1rem;
+		color: #f33;
+		background: rgba(0, 0, 0, 0.6);
+		padding: 4px 12px;
+		animation: blink 1s step-end infinite;
+	}
+
+	@keyframes blink {
+		50% { opacity: 0; }
+	}
+
+	.controls-bar {
 		position: absolute;
 		bottom: 20px;
 		right: 20px;
+		display: flex;
+		align-items: center;
+		gap: 16px;
 		background: rgba(0, 0, 0, 0.7);
-		border: 1px solid #3a3;
-		color: #3a3;
-		font-family: monospace;
-		font-size: 0.8rem;
+		border: 1px solid #1a3a1a;
+		border-radius: 6px;
 		padding: 6px 14px;
-		cursor: pointer;
 		z-index: 25;
-		border-radius: 4px;
 	}
 
-	.guide-toggle:hover {
+	.control-buttons {
+		display: flex;
+		gap: 4px;
+	}
+
+	.ctrl-btn {
+		background: none;
+		border: 1px solid transparent;
+		color: #3a3;
+		font-size: 1.1rem;
+		cursor: pointer;
+		padding: 4px 8px;
+		border-radius: 4px;
+		line-height: 1;
+	}
+
+	.ctrl-btn:hover {
 		background: rgba(51, 170, 51, 0.2);
+		border-color: #3a3;
 	}
 </style>
