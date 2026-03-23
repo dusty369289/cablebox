@@ -330,6 +330,9 @@
 				<button class="ctrl-btn" onclick={() => (showGuide = !showGuide)} title="Guide (G)">
 					☰
 				</button>
+				<button class="ctrl-btn" onclick={() => (showManager = !showManager)} title="Settings (E)">
+					&#9881;
+				</button>
 			</div>
 		</div>
 
@@ -358,7 +361,6 @@
 				currentChannelIndex={currentIndex}
 				{now}
 				onTune={handleTune}
-				onSettings={() => (showManager = true)}
 				onImport={() => (showImport = true)}
 			/>
 		{/if}

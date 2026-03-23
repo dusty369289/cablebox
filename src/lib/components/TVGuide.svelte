@@ -8,11 +8,10 @@
 		currentChannelIndex: number;
 		now: number;
 		onTune: (channel: Channel) => void;
-		onSettings: () => void;
 		onImport: () => void;
 	};
 
-	let { channels, currentChannelIndex, now, onTune, onSettings, onImport }: Props = $props();
+	let { channels, currentChannelIndex, now, onTune, onImport }: Props = $props();
 
 	// Guide shows a 2-hour window centered around now (30min past, 90min future)
 	const LOOKBACK = 30 * 60; // 30 minutes
@@ -60,10 +59,7 @@
 	<div class="guide-header">
 		<div class="header-label">
 			<span class="header-title">GUIDE</span>
-			<div class="header-actions">
-				<button class="header-btn" onclick={onSettings} title="Settings (E)">&#9881;</button>
-				<button class="header-btn" onclick={onImport} title="Import (I)">+</button>
-			</div>
+			<button class="header-btn" onclick={onImport} title="Import Channels (I)">+ Import</button>
 		</div>
 		<div class="time-axis">
 			{#each timeMarkers as marker (marker.time)}
@@ -146,30 +142,21 @@
 		white-space: nowrap;
 	}
 
-	.header-actions {
-		display: flex;
-		gap: 1px;
-		margin-left: auto;
-		flex-shrink: 0;
-	}
-
 	.header-btn {
+		margin-left: auto;
 		background: none;
-		border: 1px solid transparent;
-		color: var(--color-text-dim);
+		border: 1px solid var(--color-border);
+		color: var(--color-primary);
 		font-family: var(--font-family);
-		font-size: 0.65rem;
+		font-size: 0.7rem;
 		cursor: pointer;
-		padding: 2px 4px;
+		padding: 3px 8px;
 		border-radius: var(--border-radius-sm);
 		line-height: 1;
 		white-space: nowrap;
-		max-width: 40px;
-		overflow: hidden;
-		text-overflow: ellipsis;
 	}
 	.header-btn:hover {
-		color: var(--color-primary);
+		color: var(--color-primary-bright);
 		border-color: var(--color-primary);
 		background: var(--color-surface-hover);
 	}
