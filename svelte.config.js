@@ -9,7 +9,7 @@ const config = {
 			fallback: '404.html'
 		}),
 		paths: {
-			base: dev ? '' : '/cablebox'
+			base: dev ? '' : (process.env.BASE_PATH || '')
 		}
 	},
 	vitePlugin: {
