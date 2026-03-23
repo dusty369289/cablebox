@@ -2,7 +2,7 @@
  * User settings persisted in localStorage.
  */
 
-const STORAGE_KEY = 'channel-surfer-settings';
+const STORAGE_KEY = 'cablebox-settings';
 
 type Settings = {
 	volume: number;

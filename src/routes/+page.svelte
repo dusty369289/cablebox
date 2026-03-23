@@ -237,7 +237,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <svelte:head>
-	<title>Channel Surfer</title>
+	<title>CableBox</title>
 </svelte:head>
 
 {#if !loaded}
@@ -247,7 +247,7 @@
 {:else if !started}
 	<button class="splash" onclick={start}>
 		<div class="splash-content">
-			<div class="splash-title">CHANNEL SURFER</div>
+			<div class="splash-title">CABLEBOX</div>
 			<div class="splash-subtitle">Press anywhere to start</div>
 			<div class="splash-hint">
 				{#if currentChannel}

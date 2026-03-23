@@ -4,7 +4,7 @@
  */
 import type { Channel } from '$lib/scheduling/types.js';
 
-const LAST_CHANNEL_KEY = 'channel-surfer-last-channel';
+const LAST_CHANNEL_KEY = 'cablebox-last-channel';
 
 let channels = $state<Channel[]>([]);
 let currentIndex = $state(0);

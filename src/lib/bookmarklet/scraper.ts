@@ -1,5 +1,5 @@
 /**
- * Channel Surfer Bookmarklet — YouTube Video Scraper
+ * CableBox Bookmarklet — YouTube Video Scraper
  *
  * Runs on youtube.com pages. Auto-scrolls to load all videos,
  * extracts metadata from DOM, shows filter UI, exports JSON.
@@ -371,7 +371,7 @@ function buildPanel(): {
 		display: 'flex', justifyContent: 'space-between', alignItems: 'center',
 		padding: '12px 16px', borderBottom: '1px solid #333', background: '#0a1a0a'
 	});
-	header.appendChild(el('span', { color: '#3a3', fontWeight: 'bold', fontSize: '14px' }, 'CHANNEL SURFER'));
+	header.appendChild(el('span', { color: '#3a3', fontWeight: 'bold', fontSize: '14px' }, 'CABLEBOX'));
 	const closeBtn = document.createElement('button');
 	closeBtn.textContent = '\u00D7';
 	Object.assign(closeBtn.style, { background: 'none', border: 'none', color: '#666', fontSize: '18px', cursor: 'pointer' });
@@ -513,7 +513,7 @@ function renderVideoItem(v: ScrapedVideo): HTMLElement {
 
 (function main() {
 	if (!window.location.hostname.includes('youtube.com')) {
-		alert('Channel Surfer: This bookmarklet only works on youtube.com');
+		alert('CableBox: This bookmarklet only works on youtube.com');
 		return;
 	}
 

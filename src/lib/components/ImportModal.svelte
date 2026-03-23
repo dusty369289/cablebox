@@ -93,7 +93,7 @@
 				<div class="bookmarklet-label">1. Drag this to your bookmarks bar:</div>
 				{#if bookmarkletHref}
 					<a class="bookmarklet-link" href={bookmarkletHref} onclick={(e) => e.preventDefault()}>
-						Channel Surfer
+						CableBox
 					</a>
 				{:else}
 					<span class="bookmarklet-loading">Loading bookmarklet...</span>

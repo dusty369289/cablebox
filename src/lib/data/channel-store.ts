@@ -5,7 +5,7 @@
 
 import type { Channel } from '$lib/scheduling/types.js';
 
-const DB_NAME = 'channel-surfer';
+const DB_NAME = 'cablebox';
 const DB_VERSION = 1;
 const STORE_NAME = 'user-channels';
 
