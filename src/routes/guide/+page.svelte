@@ -1,10 +1,14 @@
+<script lang="ts">
+	import { base } from '$app/paths';
+</script>
+
 <svelte:head>
 	<title>CableBox — How to Import Channels</title>
 </svelte:head>
 
 <div class="guide-page">
 	<header class="guide-header">
-		<a href="/" class="back-link">Back to CableBox</a>
+		<a href="{base}/" class="back-link">Back to CableBox</a>
 		<h1>How to Import Channels</h1>
 		<p class="subtitle">Use the CableBox bookmarklet to scrape videos from any YouTube page and add them as channels.</p>
 	</header>
@@ -130,7 +134,7 @@
 	</section>
 
 	<footer class="guide-footer">
-		<a href="/" class="back-link">Back to CableBox</a>
+		<a href="{base}/" class="back-link">Back to CableBox</a>
 	</footer>
 </div>
 

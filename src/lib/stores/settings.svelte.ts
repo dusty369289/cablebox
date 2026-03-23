@@ -23,7 +23,7 @@ type Settings = {
 const defaults: Settings = {
 	volume: 80,
 	muted: false,
-	crtEnabled: true,
+	crtEnabled: false,
 	theme: 'cable-90s',
 	hiddenDefaults: []
 };

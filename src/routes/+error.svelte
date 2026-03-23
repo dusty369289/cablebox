@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { base } from '$app/paths';
 </script>
 
 <div class="error-screen">
 	<div class="error-code">{page.status}</div>
 	<div class="error-message">{page.error?.message || 'Something went wrong'}</div>
-	<button class="error-btn" onclick={() => location.assign('/')}>Back to CableBox</button>
+	<button class="error-btn" onclick={() => location.assign(`${base}/`)}>Back to CableBox</button>
 </div>
 
 <style>

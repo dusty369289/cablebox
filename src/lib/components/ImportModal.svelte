@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import { validateAndParse } from '$lib/bookmarklet/importer.js';
 	import { saveUserChannel, getUserChannels } from '$lib/data/channel-store.js';
 	import type { Channel } from '$lib/scheduling/types.js';
@@ -16,7 +17,7 @@
 
 	onMount(async () => {
 		try {
-			const res = await fetch('/bookmarklet.js');
+			const res = await fetch(`${base}/bookmarklet.js`);
 			const code = await res.text();
 			bookmarkletHref = `javascript:void(${encodeURIComponent(`(function(){${code}})()`)})`;
 		} catch { /* bookmarklet.js not built yet */ }
@@ -115,7 +116,7 @@
 				{/if}
 				<div class="bookmarklet-hint">
 					Then visit any YouTube page and click it to scan videos.
-					<br /><a href="/guide" class="guide-link" target="_blank">Full step-by-step guide</a>
+					<br /><a href="{base}/guide" class="guide-link" target="_blank">Full step-by-step guide</a>
 				</div>
 			</div>
 

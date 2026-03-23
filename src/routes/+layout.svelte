@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import { applyTheme } from '$lib/stores/settings.svelte.js';
 	import '../styles/tokens.css';
 
@@ -11,7 +12,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href="/favicon.svg" />
+	<link rel="icon" href="{base}/favicon.svg" />
 </svelte:head>
 
 {@render children()}
