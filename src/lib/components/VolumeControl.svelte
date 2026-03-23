@@ -41,6 +41,7 @@
 		oninput={handleInput}
 		class="volume-slider"
 		class:dimmed={muted}
+		style="background: linear-gradient(to right, var(--color-primary) {volume}%, var(--color-border) {volume}%);"
 	/>
 </div>
 
