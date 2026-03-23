@@ -22,33 +22,46 @@
 	function isCurrentSlot(slot: GuideSlot): boolean {
 		return now >= slot.startTime && now < slot.endTime;
 	}
+
+	let currentSlot = $derived(slots.find((s) => isCurrentSlot(s)));
 </script>
 
-<div class="guide-row" class:active={isActive}>
-	<button class="channel-label" onclick={() => onTune(channel)}>
+<button class="guide-row" class:active={isActive} onclick={() => onTune(channel)}>
+	<div class="channel-label">
 		<span class="channel-num">{channel.number}</span>
 		<span class="channel-name">{channel.name}</span>
-	</button>
+	</div>
 	<div class="program-track">
 		{#each slots as slot (slot.startTime)}
-			<button
+			<div
 				class="program-block"
 				class:now-playing={isCurrentSlot(slot)}
 				style={getSlotStyle(slot)}
-				onclick={() => onTune(channel)}
 				title={slot.video.title}
 			>
 				<span class="program-title">{slot.video.title}</span>
-			</button>
+			</div>
 		{/each}
 	</div>
-</div>
+	<div class="mobile-now-playing">
+		{currentSlot?.video.title ?? ''}
+	</div>
+</button>
 
 <style>
 	.guide-row {
 		display: flex;
 		height: 40px;
+		border: none;
 		border-bottom: 1px solid #1a3a1a;
+		background: transparent;
+		width: 100%;
+		cursor: pointer;
+		padding: 0;
+	}
+
+	.guide-row:hover {
+		background: rgba(51, 170, 51, 0.08);
 	}
 
 	.guide-row.active {
@@ -63,17 +76,11 @@
 		gap: 8px;
 		padding: 0 10px;
 		background: #0a1a0a;
-		border: none;
 		border-right: 2px solid #1a3a1a;
 		color: #ccc;
 		font-family: monospace;
 		font-size: 0.8rem;
-		cursor: pointer;
 		text-align: left;
-	}
-
-	.channel-label:hover {
-		background: #1a2a1a;
 	}
 
 	.channel-num {
@@ -128,5 +135,38 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+
+	.mobile-now-playing {
+		display: none;
+	}
+
+	/* Mobile: show channel name + now playing text, hide timeline */
+	@media (max-width: 640px) {
+		.guide-row {
+			height: 52px;
+		}
+
+		.channel-label {
+			width: 100px;
+			font-size: 0.75rem;
+		}
+
+		.program-track {
+			display: none;
+		}
+
+		.mobile-now-playing {
+			display: flex;
+			align-items: center;
+			flex: 1;
+			padding: 0 10px;
+			color: #aaa;
+			font-family: monospace;
+			font-size: 0.75rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 	}
 </style>

@@ -41,6 +41,33 @@
 	let numberBuffer = '';
 	let numberTimeout: ReturnType<typeof setTimeout> | null = null;
 
+	// Touch swipe handling
+	let touchStartY = 0;
+	const SWIPE_THRESHOLD = 50;
+
+	function handleTouchStart(e: TouchEvent) {
+		touchStartY = e.touches[0].clientY;
+	}
+
+	function handleTouchEnd(e: TouchEvent) {
+		const deltaY = e.changedTouches[0].clientY - touchStartY;
+		if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
+
+		if (deltaY < 0) {
+			// Swipe up → next channel
+			triggerStatic();
+			channelUp();
+			paused = false;
+			updateSchedule();
+		} else {
+			// Swipe down → previous channel
+			triggerStatic();
+			channelDown();
+			paused = false;
+			updateSchedule();
+		}
+	}
+
 	onMount(async () => {
 		const channels = await loadDefaultChannels();
 		setChannels(channels);
@@ -214,7 +241,8 @@
 		<p>Loading channels...</p>
 	</div>
 {:else}
-	<div class="tv-container">
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div class="tv-container" ontouchstart={handleTouchStart} ontouchend={handleTouchEnd}>
 		<TVPlayer
 			bind:this={tvPlayer}
 			{videoId}
@@ -362,5 +390,36 @@
 		color: #5c5;
 		border-color: #3a3;
 		background: rgba(51, 170, 51, 0.15);
+	}
+
+	/* Mobile responsive */
+	@media (max-width: 640px) {
+		.top-bar {
+			top: 10px;
+			right: 10px;
+		}
+
+		.channel-indicator {
+			font-size: 1rem;
+			padding: 2px 8px;
+		}
+
+		.controls-bar {
+			bottom: 10px;
+			left: 10px;
+			right: 10px;
+			justify-content: space-between;
+			padding: 8px 12px;
+		}
+
+		.ctrl-btn {
+			font-size: 1.3rem;
+			padding: 8px 12px;
+			min-width: 44px;
+			min-height: 44px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 </style>

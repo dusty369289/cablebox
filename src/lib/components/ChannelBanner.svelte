@@ -90,4 +90,28 @@
 			opacity: 1;
 		}
 	}
+
+	@media (max-width: 640px) {
+		.banner {
+			left: 10px;
+			right: 10px;
+			bottom: 70px;
+			padding: 8px 12px;
+			gap: 10px;
+		}
+
+		.channel-number {
+			font-size: 1.8rem;
+			min-width: 40px;
+		}
+
+		.channel-name {
+			font-size: 1rem;
+		}
+
+		.video-title {
+			font-size: 0.8rem;
+			max-width: none;
+		}
+	}
 </style>

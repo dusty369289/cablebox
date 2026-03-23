@@ -170,4 +170,21 @@
 		background: #1a3a1a;
 		border-radius: 4px;
 	}
+
+	/* Mobile: full-height overlay, hide time axis */
+	@media (max-width: 640px) {
+		.tv-guide {
+			max-height: 70vh;
+		}
+
+		.header-label {
+			width: 100%;
+			border-right: none;
+			text-align: center;
+		}
+
+		.time-axis {
+			display: none;
+		}
+	}
 </style>
