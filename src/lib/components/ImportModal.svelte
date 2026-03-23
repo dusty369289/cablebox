@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { validateAndParse } from '$lib/bookmarklet/importer.js';
-	import { saveUserChannel } from '$lib/data/channel-store.js';
+	import { saveUserChannel, getUserChannels } from '$lib/data/channel-store.js';
 	import type { Channel } from '$lib/scheduling/types.js';
 
 	type Props = {
 		onImport: (channels: Channel[]) => void;
 		onClose: () => void;
 		nextChannelNumber: number;
+		existingChannels: Channel[];
 	};
 
-	let { onImport, onClose, nextChannelNumber }: Props = $props();
+	let { onImport, onClose, nextChannelNumber, existingChannels }: Props = $props();
 	let bookmarkletHref = $state('');
 
 	onMount(async () => {
@@ -26,6 +27,13 @@
 	let preview = $state<Channel[]>([]);
 	let importing = $state(false);
 
+	function makeUnique(name: string, slug: string, existingSlugs: Set<string>): { name: string; slug: string } {
+		if (!existingSlugs.has(slug)) return { name, slug };
+		let n = 2;
+		while (existingSlugs.has(`${slug}-${n}`)) n++;
+		return { name: `${name} (${n})`, slug: `${slug}-${n}` };
+	}
+
 	function handlePaste() {
 		error = '';
 		preview = [];
@@ -38,8 +46,15 @@
 			return;
 		}
 
-		// Assign channel numbers
+		// Deduplicate against existing channels
+		const existingSlugs = new Set(existingChannels.map((ch) => ch.slug));
+		const usedSlugs = new Set(existingSlugs);
+
 		result.channels.forEach((ch, i) => {
+			const unique = makeUnique(ch.name, ch.slug, usedSlugs);
+			ch.name = unique.name;
+			ch.slug = unique.slug;
+			usedSlugs.add(ch.slug);
 			ch.number = nextChannelNumber + i;
 		});
 

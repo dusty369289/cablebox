@@ -352,6 +352,7 @@
 				onImport={handleImport}
 				onClose={() => (showImport = false)}
 				nextChannelNumber={allChannels.length > 0 ? Math.max(...allChannels.map(c => c.number)) + 1 : 1}
+				existingChannels={allChannelsUnfiltered}
 			/>
 		{/if}
 

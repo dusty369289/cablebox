@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Channel } from '$lib/scheduling/types.js';
-	import { deleteUserChannel } from '$lib/data/channel-store.js';
+	import { deleteUserChannel, saveUserChannel } from '$lib/data/channel-store.js';
+	import { validateAndParse } from '$lib/bookmarklet/importer.js';
 	import {
 		isDefaultHidden, toggleDefaultChannel,
 		isCrtEnabled, toggleCrt,
@@ -17,6 +18,9 @@
 
 	let activeTab = $state<'channels' | 'appearance'>('channels');
 	let confirmDelete = $state<string | null>(null);
+	let editingSlug = $state<string | null>(null);
+	let editJson = $state('');
+	let editError = $state('');
 
 	function isDefault(ch: Channel): boolean {
 		return ch.sources.some((s) => s.type === 'default');
@@ -30,6 +34,46 @@
 	async function handleDelete(slug: string) {
 		await deleteUserChannel(slug);
 		confirmDelete = null;
+		onChanged();
+	}
+
+	function startEdit(ch: Channel) {
+		editingSlug = ch.slug;
+		editError = '';
+		// Wrap in array to match import format
+		editJson = JSON.stringify([ch], null, 2);
+	}
+
+	function cancelEdit() {
+		editingSlug = null;
+		editJson = '';
+		editError = '';
+	}
+
+	async function saveEdit() {
+		editError = '';
+		const result = validateAndParse(editJson);
+		if (!result.ok) {
+			editError = result.error;
+			return;
+		}
+		if (result.channels.length !== 1) {
+			editError = 'JSON must contain exactly one channel';
+			return;
+		}
+
+		const updated = result.channels[0];
+		// Delete old slug if it changed
+		if (editingSlug && editingSlug !== updated.slug) {
+			await deleteUserChannel(editingSlug);
+		}
+		// Preserve channel number from original
+		const original = channels.find((ch) => ch.slug === editingSlug);
+		if (original) updated.number = original.number;
+
+		await saveUserChannel(JSON.parse(JSON.stringify(updated)));
+		editingSlug = null;
+		editJson = '';
 		onChanged();
 	}
 
@@ -95,24 +139,42 @@
 					<h3 class="section-title">Imported Channels</h3>
 					{#if userChannels.length > 0}
 						{#each userChannels as ch (ch.slug)}
-							<div class="channel-row">
-								<div class="channel-info">
-									<span class="ch-num">{ch.number}</span>
-									<span class="ch-name">{ch.name}</span>
-									<span class="ch-meta">{videoCount(ch)} &middot; {formatDuration(ch)}</span>
-								</div>
-								{#if confirmDelete === ch.slug}
-									<div class="confirm-bar">
-										<span class="confirm-text">Delete?</span>
-										<button class="btn-confirm" onclick={() => handleDelete(ch.slug)}>Yes</button>
-										<button class="btn-cancel" onclick={() => (confirmDelete = null)}>No</button>
+							{#if editingSlug === ch.slug}
+								<div class="edit-panel">
+									<textarea class="edit-json" bind:value={editJson} rows="12"></textarea>
+									{#if editError}
+										<div class="edit-error">{editError}</div>
+									{/if}
+									<div class="edit-actions">
+										<button class="btn-save" onclick={saveEdit}>Save</button>
+										<button class="btn-cancel" onclick={cancelEdit}>Cancel</button>
 									</div>
-								{:else}
-									<button class="btn-delete" onclick={() => (confirmDelete = ch.slug)} title="Delete channel">
-										&times;
-									</button>
-								{/if}
-							</div>
+								</div>
+							{:else}
+								<div class="channel-row">
+									<div class="channel-info">
+										<span class="ch-num">{ch.number}</span>
+										<span class="ch-name">{ch.name}</span>
+										<span class="ch-meta">{videoCount(ch)} &middot; {formatDuration(ch)}</span>
+									</div>
+									<div class="row-actions">
+										<button class="btn-edit" onclick={() => startEdit(ch)} title="Edit JSON">
+											&#9998;
+										</button>
+										{#if confirmDelete === ch.slug}
+											<div class="confirm-bar">
+												<span class="confirm-text">Delete?</span>
+												<button class="btn-confirm" onclick={() => handleDelete(ch.slug)}>Yes</button>
+												<button class="btn-cancel" onclick={() => (confirmDelete = null)}>No</button>
+											</div>
+										{:else}
+											<button class="btn-delete" onclick={() => (confirmDelete = ch.slug)} title="Delete channel">
+												&times;
+											</button>
+										{/if}
+									</div>
+								</div>
+							{/if}
 						{/each}
 					{:else}
 						<div class="empty">No imported channels. Press <kbd>I</kbd> to import from YouTube.</div>
@@ -179,7 +241,7 @@
 	}
 
 	.modal {
-		width: 480px;
+		width: 520px;
 		max-width: 90vw;
 		max-height: 80vh;
 		background: var(--color-surface);
@@ -358,4 +420,55 @@
 		font-size: 0.8em;
 		color: var(--color-primary);
 	}
+
+	/* Edit & row actions */
+	.row-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+	.btn-edit {
+		background: none; border: 1px solid transparent; color: var(--color-text-dim);
+		font-size: 1rem; cursor: pointer; padding: 2px 6px;
+		border-radius: var(--border-radius-sm); line-height: 1;
+	}
+	.btn-edit:hover { color: var(--color-primary); border-color: var(--color-primary); }
+
+	.edit-panel {
+		padding: 8px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius-sm);
+		background: var(--color-bg);
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.edit-json {
+		width: 100%;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		color: var(--color-text);
+		font-family: 'Courier New', monospace;
+		font-size: 0.75rem;
+		padding: 8px;
+		border-radius: var(--border-radius-sm);
+		resize: vertical;
+		line-height: 1.4;
+	}
+	.edit-json:focus { border-color: var(--color-primary); outline: none; }
+
+	.edit-error {
+		color: var(--color-danger);
+		font-size: 0.75rem;
+		padding: 4px 8px;
+		background: rgba(255, 0, 0, 0.1);
+		border-radius: var(--border-radius-sm);
+	}
+
+	.edit-actions { display: flex; gap: 6px; }
+
+	.btn-save {
+		font-family: var(--font-family); font-size: 0.8rem; padding: 4px 14px;
+		border-radius: var(--border-radius-sm); cursor: pointer;
+		background: var(--color-primary); border: 1px solid var(--color-primary); color: #000;
+	}
+	.btn-save:hover { opacity: 0.85; }
 </style>
