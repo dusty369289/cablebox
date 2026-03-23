@@ -65,7 +65,29 @@
 	}
 
 	.guide-row.active {
-		background: rgba(51, 170, 51, 0.15);
+		background: rgba(51, 170, 51, 0.25);
+		border-left: 3px solid #3a3;
+	}
+
+	.guide-row.active .channel-label {
+		background: #0f2a0f;
+		color: #fff;
+	}
+
+	.guide-row.active .channel-num {
+		color: #5c5;
+	}
+
+	.guide-row.active .program-block {
+		background: #153515;
+		border-color: #2a5a2a;
+		color: #ccc;
+	}
+
+	.guide-row.active .program-block.now-playing {
+		background: #1a5a1a;
+		border-color: #4c4;
+		color: #fff;
 	}
 
 	.channel-label {

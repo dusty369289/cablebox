@@ -99,7 +99,7 @@
 	function handleTune(channel: Channel) {
 		const channels = getChannels();
 		const idx = channels.findIndex((ch) => ch.slug === channel.slug);
-		if (idx >= 0) {
+		if (idx >= 0 && idx !== getCurrentIndex()) {
 			triggerStatic();
 			switchToChannel(idx);
 			updateSchedule();
