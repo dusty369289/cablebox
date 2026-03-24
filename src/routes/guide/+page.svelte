@@ -123,6 +123,8 @@
 			<p>
 				<kbd>G</kbd> Guide &nbsp;
 				<kbd>I</kbd> Import &nbsp;
+				<kbd>E</kbd> Settings &nbsp;
+				<kbd>R</kbd> Random &nbsp;
 				<kbd>F</kbd> Fullscreen &nbsp;
 				<kbd>M</kbd> Mute &nbsp;
 				<kbd>C</kbd> CRT Effect &nbsp;

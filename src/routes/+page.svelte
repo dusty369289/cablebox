@@ -117,6 +117,18 @@
 		setTimeout(() => { showStatic = false; }, 400);
 	}
 
+	function randomChannel() {
+		const channels = getChannels();
+		if (channels.length <= 1) return;
+		let idx: number;
+		do {
+			idx = Math.floor(Math.random() * channels.length);
+		} while (idx === getCurrentIndex());
+		triggerStatic();
+		switchToChannel(idx);
+		updateSchedule();
+	}
+
 	function handleVideoEnd() {
 		updateSchedule();
 	}
@@ -191,6 +203,11 @@
 			case 'G':
 				event.preventDefault();
 				showGuide = !showGuide;
+				break;
+			case 'r':
+			case 'R':
+				event.preventDefault();
+				randomChannel();
 				break;
 			case 'i':
 			case 'I':
@@ -302,6 +319,9 @@
 			<VolumeControl onVolumeChange={handleVolumeChange} onMuteToggle={handleMuteToggle} />
 
 			<div class="control-buttons">
+				<button class="ctrl-btn" onclick={randomChannel} title="Random Channel (R)">
+					&#127922;
+				</button>
 				<button class="ctrl-btn" onclick={toggleFullscreen} title="Fullscreen (F)">
 					⛶
 				</button>

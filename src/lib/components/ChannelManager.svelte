@@ -222,6 +222,7 @@
 						<div class="shortcut"><kbd>I</kbd> Import</div>
 						<div class="shortcut"><kbd>E</kbd> Settings</div>
 						<div class="shortcut"><kbd>F</kbd> Fullscreen</div>
+						<div class="shortcut"><kbd>R</kbd> Random</div>
 						<div class="shortcut"><kbd>M</kbd> Mute</div>
 						<div class="shortcut"><kbd>C</kbd> CRT Toggle</div>
 						<div class="shortcut"><kbd>T</kbd> Cycle Theme</div>
