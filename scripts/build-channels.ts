@@ -135,43 +135,40 @@ function formatDuration(seconds: number): string {
 }
 
 /**
- * Balance videos from multiple sources using round-robin interleaving.
- * Takes videos evenly from each source so no single YouTube channel dominates.
- * Continues until TARGET_DURATION is met or all sources are exhausted.
+ * Balance videos from multiple sources by equalising screen time.
+ * Always picks from the source with the least accumulated duration,
+ * so each YouTube channel gets roughly equal airtime regardless of
+ * individual video lengths.
  */
 function balanceVideos(sourceVideos: Map<string, VideoData[]>): VideoData[] {
 	const balanced: VideoData[] = [];
 	const seen = new Set<string>();
 	let totalDuration = 0;
 
-	// Create iterators for each source
-	const iterators = [...sourceVideos.entries()].map(([name, videos]) => ({
+	const sources = [...sourceVideos.entries()].map(([name, videos]) => ({
 		name,
 		videos,
-		index: 0
+		index: 0,
+		duration: 0
 	}));
 
-	// Round-robin: take one video from each source in turn
-	let exhaustedCount = 0;
-	while (exhaustedCount < iterators.length && totalDuration < TARGET_DURATION) {
-		exhaustedCount = 0;
-		for (const iter of iterators) {
-			if (iter.index >= iter.videos.length) {
-				exhaustedCount++;
-				continue;
-			}
-
-			const video = iter.videos[iter.index];
-			iter.index++;
-
-			if (seen.has(video.id)) continue;
-			seen.add(video.id);
-
-			balanced.push(video);
-			totalDuration += video.duration;
-
-			if (totalDuration >= TARGET_DURATION) break;
+	while (totalDuration < TARGET_DURATION) {
+		let best: typeof sources[0] | null = null;
+		for (const s of sources) {
+			if (s.index >= s.videos.length) continue;
+			if (!best || s.duration < best.duration) best = s;
 		}
+		if (!best) break;
+
+		const video = best.videos[best.index];
+		best.index++;
+
+		if (seen.has(video.id)) continue;
+		seen.add(video.id);
+
+		balanced.push(video);
+		best.duration += video.duration;
+		totalDuration += video.duration;
 	}
 
 	return balanced;
