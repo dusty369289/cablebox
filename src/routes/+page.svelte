@@ -37,6 +37,7 @@
 
 	let loaded = $state(false);
 	let loadError = $state('');
+	let booting = $state(false);
 	let started = $state(false);
 	let schedule = $state<ScheduleResult | null>(null);
 	let showGuide = $state(false);
@@ -96,8 +97,16 @@
 	});
 
 	function start() {
-		started = true;
+		booting = true;
+		// User clicked — force the player to start loading now
+		// (satisfies autoplay policy from this user gesture)
+		updateSchedule();
 		tickInterval = setInterval(updateSchedule, 1000);
+		// Boot animation plays while video buffers
+		setTimeout(() => {
+			booting = false;
+			started = true;
+		}, 1800);
 	}
 
 	onDestroy(() => {
@@ -288,19 +297,8 @@
 		<p style="color: #f66;">{loadError}</p>
 		<button class="retry-btn" onclick={() => location.reload()}>Retry</button>
 	</div>
-{:else if !started}
-	<button class="splash" onclick={start}>
-		<div class="splash-content">
-			<div class="splash-title">CABLEBOX</div>
-			<div class="splash-subtitle">Press anywhere to start</div>
-			<div class="splash-hint">
-				{#if currentChannel}
-					{allChannels.length} channels ready
-				{/if}
-			</div>
-		</div>
-	</button>
 {:else}
+	<!-- Player always mounted once loaded — preloads during splash/boot -->
 	<div class="tv-container">
 		<TVPlayer
 			bind:this={tvPlayer}
@@ -308,6 +306,25 @@
 			{startSeconds}
 			onVideoEnd={handleVideoEnd}
 		/>
+
+	{#if booting}
+		<div class="boot-screen">
+			<div class="boot-line"></div>
+			<div class="boot-glow"></div>
+		</div>
+	{:else if !started}
+		<button class="splash" onclick={start}>
+			<div class="splash-content">
+				<div class="splash-title">CABLEBOX</div>
+				<div class="splash-subtitle">Press anywhere to start</div>
+				<div class="splash-hint">
+					{#if currentChannel}
+						{allChannels.length} channels ready
+					{/if}
+				</div>
+			</div>
+		</button>
+	{/if}
 		<ChannelBanner channel={currentChannel} {videoTitle} />
 
 		{#if !isFullscreen}
@@ -407,16 +424,16 @@
 	.retry-btn:hover { background: var(--color-surface-hover); color: var(--color-primary-bright); }
 
 	.splash {
+		position: absolute;
+		inset: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 100vw;
-		height: 100vh;
-		height: 100dvh;
 		background: var(--color-bg);
 		border: none;
 		cursor: pointer;
 		padding: 0;
+		z-index: 60;
 	}
 
 	.splash-content {
@@ -443,6 +460,60 @@
 		font-size: 0.8rem;
 		color: var(--color-text-dim);
 		margin-top: 16px;
+	}
+
+	/* CRT Boot Animation */
+	.boot-screen {
+		position: absolute;
+		inset: 0;
+		background: #000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		z-index: 60;
+	}
+
+	.boot-line {
+		width: 100%;
+		height: 2px;
+		background: #fff;
+		box-shadow: 0 0 20px 8px rgba(255, 255, 255, 0.6),
+		            0 0 60px 20px rgba(255, 255, 255, 0.3);
+		animation: boot-expand 1.2s ease-out forwards;
+	}
+
+	.boot-glow {
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+		animation: boot-fade 1.8s ease-in-out forwards;
+	}
+
+	@keyframes boot-expand {
+		0% {
+			height: 2px;
+			opacity: 1;
+		}
+		40% {
+			height: 2px;
+			opacity: 1;
+		}
+		80% {
+			height: 100vh;
+			opacity: 0.6;
+		}
+		100% {
+			height: 100vh;
+			opacity: 0;
+		}
+	}
+
+	@keyframes boot-fade {
+		0% { opacity: 0; }
+		30% { opacity: 1; }
+		60% { opacity: 0.8; }
+		100% { opacity: 0; }
 	}
 
 	@keyframes blink {
