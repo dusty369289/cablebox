@@ -48,6 +48,7 @@
 		position: absolute;
 		bottom: calc(80px + env(safe-area-inset-bottom, 0px));
 		left: 20px;
+		right: 20px;
 		display: flex;
 		align-items: center;
 		gap: 16px;
@@ -59,6 +60,13 @@
 		color: var(--color-text-bright);
 		z-index: 10;
 		animation: slide-in 0.3s ease-out;
+		overflow: hidden;
+	}
+
+	.channel-info {
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
 	}
 
 	.channel-number {
@@ -73,13 +81,15 @@
 	.channel-name {
 		font-size: 1.2rem;
 		font-weight: bold;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.video-title {
 		font-size: 0.9rem;
 		color: var(--color-text);
 		margin-top: 2px;
-		max-width: 400px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
