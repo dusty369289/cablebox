@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { Channel } from '$lib/scheduling/types.js';
+	import { isLocalChannel, type Channel } from '$lib/scheduling/types.js';
 
 	const version: string = __COMMIT_HASH__;
 	import { deleteUserChannel, saveUserChannel } from '$lib/data/channel-store.js';
+	import { deleteVideoBlobsByIds } from '$lib/data/video-blob-store.js';
 	import { validateAndParse } from '$lib/bookmarklet/importer.js';
 	import {
 		isDefaultHidden, toggleDefaultChannel,
@@ -34,6 +35,12 @@
 	}
 
 	async function handleDelete(slug: string) {
+		// Clean up local video blobs if this is a local channel
+		const ch = channels.find((c) => c.slug === slug);
+		if (ch && isLocalChannel(ch)) {
+			const videoIds = ch.sources.flatMap((s) => s.videos.map((v) => v.id));
+			await deleteVideoBlobsByIds(videoIds);
+		}
 		await deleteUserChannel(slug);
 		confirmDelete = null;
 		onChanged();
@@ -160,6 +167,9 @@
 									<div class="channel-info">
 										<span class="ch-num">{ch.number}</span>
 										<span class="ch-name">{ch.name}</span>
+										{#if isLocalChannel(ch)}
+											<span class="ch-badge">LOCAL</span>
+										{/if}
 										<span class="ch-meta">{videoCount(ch)} &middot; {formatDuration(ch)}</span>
 									</div>
 									<div class="row-actions">
@@ -504,6 +514,16 @@
 	.about-text {
 		color: var(--color-text);
 		font-size: 0.9rem;
+	}
+
+	.ch-badge {
+		font-size: 0.6rem;
+		color: var(--color-primary);
+		border: 1px solid var(--color-primary);
+		padding: 0 4px;
+		border-radius: 2px;
+		text-transform: uppercase;
+		opacity: 0.7;
 	}
 
 	.version {

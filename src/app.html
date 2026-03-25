@@ -13,7 +13,8 @@
 			content="default-src 'self';
 				script-src 'self' https://www.youtube.com https://s.ytimg.com 'unsafe-inline';
 				frame-src https://www.youtube.com https://www.youtube-nocookie.com;
-				img-src 'self' https://img.youtube.com https://i.ytimg.com data:;
+				img-src 'self' https://img.youtube.com https://i.ytimg.com data: blob:;
+				media-src 'self' blob:;
 				style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
 				font-src https://fonts.gstatic.com;
 				connect-src 'self';" />

@@ -9,6 +9,7 @@
 	import ImportModal from '$lib/components/ImportModal.svelte';
 	import ChannelManager from '$lib/components/ChannelManager.svelte';
 	import NowPlaying from '$lib/components/NowPlaying.svelte';
+	import LocalPlayer from '$lib/components/LocalPlayer.svelte';
 	import { loadDefaultChannels } from '$lib/data/loader.js';
 	import { getUserChannels } from '$lib/data/channel-store.js';
 	import { getScheduleAt } from '$lib/scheduling/scheduler.js';
@@ -34,7 +35,7 @@
 		getHiddenDefaults,
 		THEMES
 	} from '$lib/stores/settings.svelte.js';
-	import type { Channel, ScheduleResult } from '$lib/scheduling/types.js';
+	import { isLocalChannel, type Channel, type ScheduleResult } from '$lib/scheduling/types.js';
 
 	let loaded = $state(false);
 	let loadError = $state('');
@@ -49,6 +50,7 @@
 	let allChannelsUnfiltered = $state<Channel[]>([]);
 	let tickInterval: ReturnType<typeof setInterval> | null = null;
 	let tvPlayer: TVPlayer | undefined = $state();
+	let localPlayer: LocalPlayer | undefined = $state();
 
 	// Number input buffer for direct channel entry
 	let numberBuffer = '';
@@ -174,15 +176,19 @@
 		}
 	}
 
+	function activePlayer() {
+		return isLocal ? localPlayer : tvPlayer;
+	}
+
 	function handleVolumeChange(vol: number) {
-		tvPlayer?.setVolume(vol);
+		activePlayer()?.setVolume(vol);
 	}
 
 	function handleMuteToggle(muted: boolean) {
 		if (muted) {
-			tvPlayer?.mute();
+			activePlayer()?.mute();
 		} else {
-			tvPlayer?.unmute();
+			activePlayer()?.unmute();
 		}
 	}
 
@@ -246,9 +252,9 @@
 				event.preventDefault();
 				toggleMuted();
 				if (isMuted()) {
-					tvPlayer?.mute();
+					activePlayer()?.mute();
 				} else {
-					tvPlayer?.unmute();
+					activePlayer()?.unmute();
 				}
 				break;
 			case 'Escape':
@@ -283,6 +289,7 @@
 	let startSeconds = $derived(schedule?.offsetSeconds ?? 0);
 	let videoTitle = $derived(schedule?.video.title ?? '');
 	let crtEnabled = $derived(isCrtEnabled());
+	let isLocal = $derived(currentChannel ? isLocalChannel(currentChannel) : false);
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -303,12 +310,21 @@
 {:else}
 	<!-- Player always mounted once loaded — preloads during splash/boot -->
 	<div class="tv-container">
-		<TVPlayer
-			bind:this={tvPlayer}
-			{videoId}
-			{startSeconds}
-			onVideoEnd={handleVideoEnd}
-		/>
+		{#if isLocal}
+			<LocalPlayer
+				bind:this={localPlayer}
+				{videoId}
+				{startSeconds}
+				onVideoEnd={handleVideoEnd}
+			/>
+		{:else}
+			<TVPlayer
+				bind:this={tvPlayer}
+				{videoId}
+				{startSeconds}
+				onVideoEnd={handleVideoEnd}
+			/>
+		{/if}
 
 	{#if booting}
 		<div class="boot-screen">

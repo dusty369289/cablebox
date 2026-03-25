@@ -3,6 +3,8 @@
 	import { base } from '$app/paths';
 	import { validateAndParse } from '$lib/bookmarklet/importer.js';
 	import { saveUserChannel, getUserChannels } from '$lib/data/channel-store.js';
+	import { importLocalFiles, type ImportProgress } from '$lib/data/local-video-importer.js';
+	import { getStorageEstimate } from '$lib/data/video-blob-store.js';
 	import type { Channel } from '$lib/scheduling/types.js';
 
 	type Props = {
@@ -14,19 +16,75 @@
 
 	let { onImport, onClose, nextChannelNumber, existingChannels }: Props = $props();
 	let bookmarkletHref = $state('');
+	let mode = $state<'youtube' | 'local'>('youtube');
 
 	onMount(async () => {
 		try {
 			const res = await fetch(`${base}/bookmarklet.js`);
 			const code = await res.text();
 			bookmarkletHref = `javascript:void(${encodeURIComponent(`(function(){${code}})()`)})`;
-		} catch { /* bookmarklet.js not built yet */ }
+		} catch {}
+		updateStorageInfo();
 	});
 
+	// YouTube import state
 	let jsonInput = $state('');
 	let error = $state('');
 	let preview = $state<Channel[]>([]);
 	let importing = $state(false);
+
+	// Local file import state
+	let localChannelName = $state('My Local Channel');
+	let localFiles: FileList | null = $state(null);
+	let localProgress = $state<ImportProgress | null>(null);
+	let localImporting = $state(false);
+	let localError = $state('');
+	let storageInfo = $state('');
+
+	async function updateStorageInfo() {
+		const est = await getStorageEstimate();
+		if (est) {
+			const usedMB = (est.used / 1024 / 1024).toFixed(1);
+			const quotaMB = (est.quota / 1024 / 1024).toFixed(0);
+			storageInfo = `${usedMB} MB used of ${quotaMB} MB`;
+		}
+	}
+
+	async function doLocalImport() {
+		if (!localFiles || localFiles.length === 0) return;
+		localImporting = true;
+		localError = '';
+
+		try {
+			const channel = await importLocalFiles(localFiles, localChannelName, (p) => {
+				localProgress = p;
+			});
+
+			// Assign channel number and deduplicate slug
+			const existingSlugs = new Set(existingChannels.map((ch) => ch.slug));
+			if (existingSlugs.has(channel.slug)) {
+				let n = 2;
+				while (existingSlugs.has(`${channel.slug}-${n}`)) n++;
+				channel.name = `${channel.name} (${n})`;
+				channel.slug = `${channel.slug}-${n}`;
+			}
+			channel.number = nextChannelNumber;
+
+			await saveUserChannel(JSON.parse(JSON.stringify(channel)));
+			await updateStorageInfo();
+			onImport([channel]);
+		} catch (err) {
+			localError = `Import failed: ${err}`;
+		} finally {
+			localImporting = false;
+			localProgress = null;
+		}
+	}
+
+	function formatFileSize(bytes: number): string {
+		if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+		return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+	}
 
 	function makeUnique(name: string, slug: string, existingSlugs: Set<string>): { name: string; slug: string } {
 		if (!existingSlugs.has(slug)) return { name, slug };
@@ -104,7 +162,13 @@
 			<button class="modal-close" onclick={onClose}>&times;</button>
 		</div>
 
+		<div class="import-tabs">
+			<button class="import-tab" class:active={mode === 'youtube'} onclick={() => (mode = 'youtube')}>YouTube</button>
+			<button class="import-tab" class:active={mode === 'local'} onclick={() => (mode = 'local')}>Local Files</button>
+		</div>
+
 		<div class="modal-body">
+		{#if mode === 'youtube'}
 			<div class="bookmarklet-box">
 				<div class="bookmarklet-label">1. Drag this to your bookmarks bar:</div>
 				{#if bookmarkletHref}
@@ -156,6 +220,57 @@
 					{importing ? 'Importing...' : `Import ${preview.length} Channel(s)`}
 				</button>
 			{/if}
+
+		{:else}
+			<!-- Local Files Mode -->
+			<div class="local-import">
+				<div class="local-field">
+					<label class="local-label">Channel name
+					<input class="local-input" type="text" bind:value={localChannelName} placeholder="My Local Channel" />
+					</label>
+				</div>
+
+				<div class="local-field">
+					<label class="local-label">Video files
+					<input class="local-file-input" type="file" accept="video/*" multiple
+						onchange={(e) => { localFiles = (e.target as HTMLInputElement).files; }} />
+					</label>
+				</div>
+
+				{#if localFiles && localFiles.length > 0}
+					<div class="local-preview">
+						{localFiles.length} file(s) selected
+						({Array.from(localFiles).reduce((s, f) => s + f.size, 0) > 0
+							? formatFileSize(Array.from(localFiles).reduce((s, f) => s + f.size, 0))
+							: ''})
+					</div>
+				{/if}
+
+				{#if localProgress}
+					<div class="local-progress">
+						<div class="local-progress-text">
+							Processing {localProgress.current}/{localProgress.total}: {localProgress.filename}
+						</div>
+						<div class="local-progress-bar">
+							<div class="local-progress-fill" style="width: {(localProgress.current / localProgress.total) * 100}%"></div>
+						</div>
+					</div>
+				{/if}
+
+				{#if localError}
+					<div class="error">{localError}</div>
+				{/if}
+
+				<button class="import-btn" onclick={doLocalImport}
+					disabled={localImporting || !localFiles || localFiles.length === 0}>
+					{localImporting ? 'Importing...' : 'Import Local Files'}
+				</button>
+
+				{#if storageInfo}
+					<div class="storage-info">{storageInfo}</div>
+				{/if}
+			</div>
+		{/if}
 		</div>
 	</div>
 </div>
@@ -211,6 +326,24 @@
 		flex-direction: column;
 		gap: 12px;
 	}
+
+	.import-tabs {
+		display: flex;
+		border-bottom: 1px solid #333;
+	}
+	.import-tab {
+		flex: 1;
+		background: none;
+		border: none;
+		border-bottom: 2px solid transparent;
+		color: #888;
+		font-family: monospace;
+		font-size: 0.85rem;
+		padding: 8px 12px;
+		cursor: pointer;
+	}
+	.import-tab:hover { color: #ccc; background: #1a1a1a; }
+	.import-tab.active { color: #3a3; border-bottom-color: #3a3; }
 
 	.instructions { font-size: 12px; color: #888; margin: 0; }
 
@@ -317,4 +450,71 @@
 	}
 	.import-btn:hover { background: #5c5; }
 	.import-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+	/* Local file import */
+	.local-import {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+	.local-field {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.local-label {
+		font-size: 0.8rem;
+		color: #888;
+	}
+	.local-input {
+		background: #0a0a0a;
+		border: 1px solid #333;
+		color: #ccc;
+		font-family: monospace;
+		font-size: 0.9rem;
+		padding: 6px 8px;
+		border-radius: 4px;
+	}
+	.local-input:focus { border-color: #3a3; outline: none; }
+	.local-file-input {
+		font-family: monospace;
+		font-size: 0.8rem;
+		color: #ccc;
+	}
+	.local-preview {
+		font-size: 0.8rem;
+		color: #888;
+		padding: 6px 8px;
+		background: #0a0a0a;
+		border-radius: 4px;
+	}
+	.local-progress {
+		padding: 6px 8px;
+		background: #0a1a0a;
+		border-radius: 4px;
+	}
+	.local-progress-text {
+		font-size: 0.8rem;
+		color: #3a3;
+		margin-bottom: 6px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.local-progress-bar {
+		height: 4px;
+		background: #1a1a1a;
+		border-radius: 2px;
+		overflow: hidden;
+	}
+	.local-progress-fill {
+		height: 100%;
+		background: #3a3;
+		transition: width 0.3s ease;
+	}
+	.storage-info {
+		font-size: 0.7rem;
+		color: #666;
+		text-align: center;
+	}
 </style>
